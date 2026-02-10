@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>MEB | Materyal Deposu</title>
+    <style>
+        body { background: #f0f0f0; font-family: sans-serif; transition: 0.5s; }
+        
+        /* HERKESİN GÖRECEĞİ EKRAN (KAMUFLAJ) */
+        #fake-screen { padding: 50px; text-align: center; }
+        .math-box { background: white; padding: 20px; border: 1px solid #ccc; border-radius: 10px; display: inline-block; }
+
+        /* GİZLİ EKRAN (SADECE TUŞLA AÇILIR) */
+        #secret-screen { 
+            display: none; position: fixed; inset: 0; 
+            background: #111; color: #0f0; padding: 20px; 
+            font-family: 'Courier New', monospace; z-index: 9999;
+        }
+        textarea { 
+            width: 100%; height: 80vh; background: #222; 
+            color: #0f0; border: 1px solid #444; padding: 10px; font-size: 1.2rem;
+        }
+        .info { color: #888; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div id="fake-screen">
+        <div class="math-box">
+            <h2>5. Sınıf Geometri Çalışma Sayfası</h2>
+            <p>Üçgenin iç açıları toplamı 180 derecedir.</p>
+            <p>Lütfen bekleyiniz, içerik yükleniyor...</p>
+        </div>
+        <p style="margin-top:20px; color:#aaa;">(Sistem Güncel)</p>
+    </div>
+
+    <div id="secret-screen">
+        <h2>🕵️ GİZLİ NOT PANELİ</h2>
+        <p class="info">Notlarını buraya yaz, sayfayı yenilemediğin sürece burada kalır. Çıkmak için 'ESC' bas.</p>
+        <textarea id="note-area" placeholder="Gizli mesajlarını buraya yaz..."></textarea>
+        <p>Kapatmak için ESC'ye bas!</p>
+    </div>
+
+    <script>
+        const fake = document.getElementById('fake-screen');
+        const secret = document.getElementById('secret-screen');
+
+        // TUŞ DİNLEME SİSTEMİ
+        document.addEventListener('keydown', function(e) {
+            // 'H' tuşuna basınca gizli paneli aç (Hack modu gibi düşün)
+            if (e.key.toLowerCase() === 'h') {
+                fake.style.display = 'none';
+                secret.style.display = 'block';
+                document.body.style.background = '#111';
+            }
+            
+            // 'Escape' tuşuna basınca hemen kapat (Öğretmen gelirse!)
+            if (e.key === 'Escape') {
+                fake.style.display = 'block';
+                secret.style.display = 'none';
+                document.body.style.background = '#f0f0f0';
+            }
+        });
+    </script>
+</body>
+</html>
+
