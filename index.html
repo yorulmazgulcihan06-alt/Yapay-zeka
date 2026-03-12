@@ -1,24 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Benim Uygulamam</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utkan Terminal v1</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: monospace; margin: 0; padding: 20px; }
+        #output { height: 300px; overflow-y: auto; border-bottom: 1px solid #333; margin-bottom: 10px; padding: 10px; }
+        .input-line { display: flex; }
+        .prompt { color: #0f0; margin-right: 10px; }
+        input { background: transparent; border: none; color: #0f0; outline: none; font-family: monospace; font-size: 16px; width: 100%; }
+        button#closeBtn { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: red; color: white; display: none; z-index: 10000; border: none; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <script>
-        // Senin kodlarını buraya kopyalıyoruz
-        let puan = "40000";
-        let mal = "sen hihihihihih";
-        console.log("merhaba size nasil yardimci olabilirim");
-        let sa = "aleykum selam gardas";
-        let siktir = "merhaba size nasil yardimci olabilirim";
 
-        Object.defineProperty(window, 'oyun', { get: () => {
-            window.location.href = "https://www.google.com/logos/2010/pacman10-i.html";
-            return "Oyun yükleniyor...";
-        }});
-    </script>
-    <h1 style="text-align:center;">Uygulama Hazır</h1>
-    <p style="text-align:center;">Konsola 'oyun' yazarak başlatabilirsin.</p>
+<button id="closeBtn" onclick="location.reload()">OYUNU KAPAT</button>
+<div id="main-ui">
+    <div id="output">Merhaba, size nasıl yardımcı olabilirim? (Komutlar: oyun, puan, sa, mal, selam veya soru sor...)</div>
+    <div class="input-line">
+        <span class="prompt">>></span>
+        <input type="text" id="commandInput" autofocus onkeydown="if(event.key === 'Enter') executeCommand()">
+    </div>
+</div>
+
+<div id="game-area"></div>
+
+<script>
+    // Senin değişkenlerin aynen korunuyor
+    let puan = "40000";
+    let mal = "sen hihihihihih";
+    let sa = "aleykum selam gardas";
+    let siktir = "merhaba size nasil yardimci olabilirim";
+
+    const input = document.getElementById('commandInput');
+    const output = document.getElementById('output');
+    const gameArea = document.getElementById('game-area');
+    const mainUI = document.getElementById('main-ui');
+    const closeBtn = document.getElementById('closeBtn');
+
+    function printToScreen(text) {
+        output.innerHTML += `<div>${text}</div>`;
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function executeCommand() {
+        let cmd = input.value.toLowerCase().trim();
+        printToScreen(`<span style="color:white">>> ${cmd}</span>`);
+        input.value = "";
+
+        // 1. Senin Özel Komutların
+        if (cmd === "oyun") {
+            mainUI.style.display = "none";
+            closeBtn.style.display = "block";
+            gameArea.innerHTML = `<iframe src="https://www.google.com/logos/2010/pacman10-i.html" style="width:100%; height:100vh; border:none;"></iframe>`;
+        } 
+        else if (cmd === "puan") { printToScreen("Sistem Puanı: " + puan); }
+        else if (cmd === "sa") { printToScreen(sa); }
+        else if (cmd === "mal") { printToScreen(mal); }
+        else if (cmd === "selam") { printToScreen(siktir); }
+        
+        // 2. Basit Yapay Zeka Cevapları (Abartmadan)
+        else if (cmd.includes("nasılsın")) { printToScreen("Yapay zeka olduğum için hep aynıyım, sen nasılsın?"); }
+        else if (cmd.includes("kimsin")) { printToScreen("Ben Utkan'ın kodladığı terminal tabanlı bir asistanım."); }
+        else if (cmd === "temizle") { output.innerHTML = ""; }
+        
+        // 3. Bilinmeyen Durum
+        else {
+            printToScreen("AI: Bu komutu henüz öğrenmedim ama üzerinde çalışıyorum!");
+        }
+    }
+</script>
 </body>
 </html>
-
