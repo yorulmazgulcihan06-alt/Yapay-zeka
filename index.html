@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matematik Arenası | 6. Sınıf</title>
+    <title>Matematik Arenası | Konu Seçmeli</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -45,6 +45,7 @@
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
             font-weight: 800;
             font-size: 1.2rem;
+            display: none; /* Oyun başlayınca görünecek */
         }
 
         .score-box { color: var(--neon-blue); }
@@ -64,14 +65,15 @@
             width: 100%;
         }
 
-        /* Başlangıç Ekranı */
+        /* Başlangıç ve Konu Seçme Ekranı */
         .start-screen {
             text-align: center;
             animation: zoomIn 0.5s ease-out;
+            width: 100%;
         }
         
         .start-screen h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -86,24 +88,38 @@
             font-size: 1.1rem;
         }
 
-        .start-btn {
-            background: transparent;
-            color: var(--neon-blue);
-            border: 2px solid var(--neon-blue);
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        .topic-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .start-btn:hover {
-            background: var(--neon-blue);
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px var(--neon-blue);
-            transform: scale(1.05);
+        .topic-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--neon-blue);
+            transform: translateY(-3px);
+        }
+
+        .topic-btn span {
+            font-size: 0.9rem;
+            color: #888;
         }
 
         /* Sınav Ekranı */
@@ -124,7 +140,7 @@
         }
 
         .question-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 30px;
             line-height: 1.5;
         }
@@ -189,13 +205,12 @@
             75% { transform: translateX(-5px); }
             100% { transform: translateX(0); }
         }
-
     </style>
 </head>
 <body>
 
     <!-- Skor Tablosu -->
-    <div class="scoreboard">
+    <div class="scoreboard" id="scoreboard">
         <div class="score-box">SORU: <span id="question-counter">1/5</span></div>
         <div class="score-correct">DOĞRU: <span id="score-correct">0</span></div>
         <div class="score-wrong">YANLIŞ: <span id="score-wrong">0</span></div>
@@ -203,11 +218,25 @@
 
     <div class="main-container">
         
-        <!-- Başlangıç Ekranı -->
+        <!-- Başlangıç ve Konu Seçme Ekranı -->
         <div class="start-screen" id="start-screen">
             <h1>Matematik Arenası</h1>
-            <p>6. Sınıf konularından oluşan 5 soruluk meydan okuma. Hazır mısın?</p>
-            <button class="start-btn" onclick="startQuiz()">OYUNA BAŞLA</button>
+            <p>Hangi konudan meydan okumak istersin?</p>
+            
+            <div class="topic-grid">
+                <button class="topic-btn" onclick="startQuiz('sayilar')">
+                    <div>🔢 Sayılar ve Nicelikler</div>
+                    <span>Çarpanlar, Asallar</span>
+                </button>
+                <button class="topic-btn" onclick="startQuiz('kesirler')">
+                    <div>📏 Kesirler ve Ondalık</div>
+                    <span>Bölme, Uzunluk</span>
+                </button>
+                <button class="topic-btn" onclick="startQuiz('olasilik')">
+                    <div>🎲 Veriden Olasılığa</div>
+                    <span>Deneysel Olasılık</span>
+                </button>
+            </div>
         </div>
 
         <!-- Sınav Ekranı -->
@@ -223,7 +252,7 @@
     </div>
 
     <script>
-        // --- SES MOTORU (Dışarıdan dosya indirmeden ses üretir) ---
+        // --- SES MOTORU ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -255,69 +284,94 @@
             }
         }
 
-        // --- SORU BANKASI (Senin kitabındaki konulardan harmanlandı) ---
-        const questions = [
-            {
-                question: "Bir zar havaya atılıyor. Üst yüze gelen sayının çift olma olasılığı (deneysel değil, teorik) kaçtır?",
-                options: ["1/2", "1/3", "1/6", "2/3"],
-                correct: 0 // 1/2 (2, 4, 6 çift -> 3/6 = 1/2)
-            },
-            {
-                question: "Bir torbada 3 kırmızı, 4 mavi, 5 yeşil top vardır. Torbadan rastgele çekilen bir topun MAVİ olma olasılığı kaçtır?",
-                options: ["3/12", "4/12", "5/12", "3/4"],
-                correct: 1 // 4/12 (Toplam 12 top, 4'ü mavi)
-            },
-            {
-                question: "12 sayısının asal çarpanları aşağıdakilerden hangisidir?",
-                options: ["1, 2, 3, 4, 6, 12", "2 ve 3", "2, 3 ve 4", "Sadece 2"],
-                correct: 1 // Asal çarpanlar 2 ve 3'tür.
-            },
-            {
-                question: "3/5 kesrinin ondalık gösterimi aşağıdakilerden hangisidir?",
-                options: ["0,35", "0,6", "0,53", "1,66"],
-                correct: 1 // 3 bölü 5 = 0,6
-            },
-            {
-                question: "1 hektometre (hm) kaç metredir?",
-                options: ["10 m", "100 m", "1000 m", "0,1 m"],
-                correct: 1 // 1 hm = 100 m
-            }
-        ];
+        // --- SORU BANKASI (Konulara Göre Ayrıldı) ---
+        const questionBank = {
+            'sayilar': [
+                { q: "12 sayısının asal çarpanları hangileridir?", c: "2 ve 3", w: ["1, 2, 3, 4, 6, 12", "2, 3 ve 4", "Sadece 2"] },
+                { q: "20 sayısının kaç tane çarpanı vardır?", c: "6", w: ["4", "5", "8"] },
+                { q: "Aşağıdakilerden hangisi bir asal sayıdır?", c: "17", w: ["15", "21", "27"] },
+                { q: "Hem 3'e hem de 5'e tam bölünebilen en küçük doğal sayı kaçtır?", c: "15", w: ["8", "30", "45"] },
+                { q: "Aşağıdaki sayılardan hangisi 2 ile kalansız bölünemez?", c: "39", w: ["12", "46", "80"] }
+            ],
+            'kesirler': [
+                { q: "3/5 kesrinin ondalık gösterimi nedir?", c: "0,6", w: ["0,35", "0,53", "1,66"] },
+                { q: "1 hektometre (hm) kaç metredir?", c: "100 m", w: ["10 m", "1000 m", "0,1 m"] },
+                { q: "1/4 kesrinin yüzde (%) olarak karşılığı nedir?", c: "%25", w: ["%14", "%40", "%75"] },
+                { q: "2,5 sayısı aşağıdaki kesirlerden hangisine eşittir?", c: "5/2", w: ["2/5", "1/2", "5/4"] },
+                { q: "5 dm kaç cm'dir?", c: "50 cm", w: ["5 cm", "500 cm", "0,5 cm"] }
+            ],
+            'olasilik': [
+                { q: "Bir zar atıldığında üst yüze çift sayı gelme olasılığı kaçtır?", c: "1/2", w: ["1/3", "1/6", "2/3"] },
+                { q: "Torbada 3 kırmızı, 4 mavi top var. Mavi çekme olasılığı kaçtır?", c: "4/7", w: ["3/7", "1/2", "4/12"] },
+                { q: "Hilesiz bir madeni para atıldığında 'Tura' gelme olasılığı kaçtır?", c: "1/2", w: ["1/4", "1", "0"] },
+                { q: "Bir zar atıldığında 7 gelme olasılığı kaçtır?", c: "0", w: ["1/6", "1/7", "1/2"] },
+                { q: "İçinde sadece 5 tane kırmızı top olan torbadan kırmızı çekme olasılığı kaçtır?", c: "1 (Kesin)", w: ["0", "1/5", "5/5 (0)"] }
+            ]
+        };
 
         let currentQuestion = 0;
         let correctScore = 0;
         let wrongScore = 0;
         let canAnswer = true;
+        let selectedQuestions = []; // Karıştırılmış sorular burada tutulacak
+
+        // --- DİZİYİ KARIŞTIRMA (FISHER-YATES) ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         // --- OYUNU BAŞLAT ---
-        function startQuiz() {
+        function startQuiz(topic) {
             playSound('click');
+            
+            // Oyun ekranını hazırla
             document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('scoreboard').style.display = 'flex';
             document.getElementById('quiz-screen').style.display = 'block';
+            
             currentQuestion = 0;
             correctScore = 0;
             wrongScore = 0;
             updateScoreboard();
+
+            // Seçilen konudan soruları al ve karıştır
+            let rawQuestions = questionBank[topic];
+            selectedQuestions = shuffleArray([...rawQuestions]); // Kopyasını alıp karıştır
+
             showQuestion();
         }
 
         // --- SORUYU GÖSTER ---
         function showQuestion() {
             canAnswer = true;
-            const q = questions[currentQuestion];
+            const qData = selectedQuestions[currentQuestion];
             
             // Soru metnini güncelle
-            document.getElementById('question-text').innerText = q.question;
-            document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${selectedQuestions.length}`;
 
-            // Seçenekleri oluştur
+            // Seçenekleri hazırla (Doğru şık + Yanlış şıklar)
+            let allOptions = [qData.c, ...qData.w]; // Doğru cevabı ve yanlışları birleştir
+            
+            // Şıkları rastgele karıştır
+            allOptions = shuffleArray(allOptions);
+
+            // Doğru cevabın yeni yerini bul
+            const newCorrectIndex = allOptions.indexOf(qData.c);
+            qData.currentCorrectIndex = newCorrectIndex; // Doğru cevabı objeye kaydet
+
+            // Seçenek butonlarını oluştur
             const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = ''; // Temizle
+            optionsContainer.innerHTML = ''; 
 
-            q.options.forEach((option, index) => {
+            allOptions.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; // A, B, C, D şıkları
+                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; // A, B, C, D
                 btn.onclick = () => checkAnswer(index, btn);
                 optionsContainer.appendChild(btn);
             });
@@ -325,32 +379,28 @@
 
         // --- CEVABI KONTROL ET ---
         function checkAnswer(selectedIndex, btnElement) {
-            if (!canAnswer) return; // Zaten cevap verildiyse tekrar tıklamayı engelle
+            if (!canAnswer) return; 
             canAnswer = false;
 
-            const correctIndex = questions[currentQuestion].correct;
+            const correctIndex = selectedQuestions[currentQuestion].currentCorrectIndex;
             const allButtons = document.querySelectorAll('.option-btn');
 
             if (selectedIndex === correctIndex) {
-                // DOĞRU CEVAP
                 playSound('correct');
                 btnElement.classList.add('correct');
                 correctScore++;
             } else {
-                // YANLIŞ CEVAP
                 playSound('wrong');
                 btnElement.classList.add('wrong');
-                // Doğru cevabı göster
-                allButtons[correctIndex].classList.add('correct');
+                allButtons[correctIndex].classList.add('correct'); // Doğruyu göster
                 wrongScore++;
             }
 
             updateScoreboard();
 
-            // 1.5 saniye sonra sonraki soruya geç veya bitir
             setTimeout(() => {
                 currentQuestion++;
-                if (currentQuestion < questions.length) {
+                if (currentQuestion < selectedQuestions.length) {
                     showQuestion();
                 } else {
                     endQuiz();
@@ -358,21 +408,19 @@
             }, 1500);
         }
 
-        // --- SKORU GÜNCELLE ---
         function updateScoreboard() {
             document.getElementById('score-correct').innerText = correctScore;
             document.getElementById('score-wrong').innerText = wrongScore;
         }
 
-        // --- OYUNU BİTİR ---
         function endQuiz() {
             const quizScreen = document.getElementById('quiz-screen');
             quizScreen.innerHTML = `
                 <div class="question-card" style="text-align: center;">
-                    <h2 style="color: var(--neon-blue); font-size: 2rem; margin-bottom: 20px;">Oyun Bitti!</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Toplam Doğru: <span style="color: var(--correct); font-weight: bold;">${correctScore}</span></p>
-                    <p style="font-size: 1.2rem; margin-bottom: 30px;">Toplam Yanlış: <span style="color: var(--wrong); font-weight: bold;">${wrongScore}</span></p>
-                    <button class="start-btn" onclick="location.reload()">TEKRAR OYNA</button>
+                    <h2 style="color: var(--neon-blue); font-size: 2rem; margin-bottom: 20px;">Meydan Okuma Tamamlandı!</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Doğru Sayın: <span style="color: var(--correct); font-weight: bold; font-size: 1.5rem;">${correctScore}</span></p>
+                    <p style="font-size: 1.2rem; margin-bottom: 30px;">Yanlış Sayın: <span style="color: var(--wrong); font-weight: bold; font-size: 1.5rem;">${wrongScore}</span></p>
+                    <button class="start-btn" onclick="location.reload()" style="background: var(--neon-blue); color: black; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem;">ANA MENÜYE DÖN</button>
                 </div>
             `;
         }
