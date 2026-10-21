@@ -17,7 +17,85 @@
             --p1-color: #38bdf8;
             --p2-color: #f472b6;
         }
+/* --- SİNEMATİK AÇILIŞ EKRANI --- */
+#intro-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s ease-out;
+    background-image: radial-gradient(circle at center, rgba(15, 23, 42, 1) 0%, #000 100%);
+}
 
+.intro-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    opacity: 0;
+    transform: scale(0.8);
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue), 0 0 40px var(--neon-pink);
+    transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.intro-title.show {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 4px;
+}
+
+.intro-subtitle {
+    color: var(--neon-blue);
+    font-size: 1.1rem;
+    margin-top: 15px;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.intro-subtitle.show {
+    opacity: 1;
+}
+
+.start-btn-intro {
+    margin-top: 60px;
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--neon-blue);
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeInBtn 1s forwards 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+
+.start-btn-intro:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 40px var(--neon-blue);
+    transform: scale(1.05);
+}
+
+@keyframes fadeInBtn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+        }
         * {
             box-sizing: border-box;
             margin: 0;
