@@ -3,375 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6. Sınıf Matematik - Premium Çalışma Alanı</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Matematik Arenası | 6. Sınıf</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #38bdf8;
-            --secondary: #818cf8;
-            --accent: #f472b6;
-            --success: #4ade80;
+            --bg-dark: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.8);
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ea;
+            --correct: #00ff88;
+            --wrong: #ff3366;
+            --text-main: #ffffff;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 0, 234, 0.1) 0%, transparent 40%);
             min-height: 100vh;
-            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
-                              radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.15), transparent 25%);
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Animasyonlu Başlık */
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
+        /* Üst Skor Paneli */
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-bottom: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
             font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
         }
 
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
+        .score-box { color: var(--neon-blue); }
+        .score-correct { color: var(--correct); }
+        .score-wrong { color: var(--wrong); }
 
-        /* Sekmeler (Tabs) */
-        .tabs {
+        /* Ana İçerik */
+        .main-container {
+            flex: 1;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-color: transparent;
-            box-shadow: 0 10px 20px -10px var(--primary);
-        }
-
-        /* İçerik Alanı */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px 50px 20px;
-        }
-
-        .module-content {
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .module-content.active {
-            display: block;
-        }
-
-        /* Kart Tasarımı (Glassmorphism) */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        .card p, .card ul {
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 15px;
-        }
-
-        .card ul { padding-left: 20px; }
-        .card li { margin-bottom: 8px; }
-
-        .highlight {
-            color: var(--text-main);
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        /* Görev Kutusu */
-        .task-box {
-            background: rgba(244, 114, 182, 0.1);
-            border-left: 4px solid var(--accent);
-            padding: 15px 20px;
-            border-radius: 0 10px 10px 0;
-            margin-top: 20px;
+        /* Başlangıç Ekranı */
+        .start-screen {
+            text-align: center;
+            animation: zoomIn 0.5s ease-out;
         }
         
-        .task-box strong { color: var(--accent); }
-
-        /* İnteraktif Zar Simülatörü */
-        .dice-sim {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .dice {
-            width: 80px;
-            height: 80px;
-            background: white;
-            color: #1e293b;
+        .start-screen h1 {
             font-size: 3rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            margin: 20px auto;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: transform 0.1s;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .roll-btn {
-            background: var(--success);
-            color: #000;
-            border: none;
-            padding: 12px 30px;
+        .start-screen p {
+            margin-bottom: 30px;
+            color: #aaa;
             font-size: 1.1rem;
+        }
+
+        .start-btn {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            padding: 15px 40px;
+            font-size: 1.5rem;
             font-weight: 800;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
         }
 
-        .roll-btn:hover {
+        .start-btn:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--neon-blue);
             transform: scale(1.05);
-            box-shadow: 0 0 20px var(--success);
         }
 
-        .roll-btn:active {
-            transform: scale(0.95);
+        /* Sınav Ekranı */
+        .quiz-screen {
+            width: 100%;
+            display: none;
+        }
+
+        .question-card {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            animation: slideInRight 0.4s ease-out;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .options-container { grid-template-columns: 1fr; }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #666;
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--correct);
+            color: var(--correct);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 51, 102, 0.2);
+            border-color: var(--wrong);
+            color: var(--wrong);
+            animation: shake 0.4s;
         }
 
         /* Animasyonlar */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
         }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Matematik Ustası</h1>
-        <p>6. Sınıf İnteraktif Çalışma Platformu</p>
-    </header>
-
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(0)">1. Sayılar ve Nicelikler</button>
-        <button class="tab-btn" onclick="switchTab(1)">2. Sayılar ve Nicelikler (2)</button>
-        <button class="tab-btn" onclick="switchTab(2)">3. Veriden Olasılığa</button>
+    <!-- Skor Tablosu -->
+    <div class="scoreboard">
+        <div class="score-box">SORU: <span id="question-counter">1/5</span></div>
+        <div class="score-correct">DOĞRU: <span id="score-correct">0</span></div>
+        <div class="score-wrong">YANLIŞ: <span id="score-wrong">0</span></div>
     </div>
 
-    <div class="container">
+    <div class="main-container">
         
-        <!-- MODÜL 1 -->
-        <div class="module-content active" id="module-0">
-            <div class="card">
-                <h2>🔢 Çarpanlar, Katlar ve Asallar</h2>
-                <p>Sayıların dünyasına hoş geldin. Bir sayıyı tam bölen sayılara <span class="highlight">çarpan</span>, bir sayının ritmik artışlarına ise <span class="highlight">kat</span> denir.</p>
-                <ul>
-                    <li><strong>Asal Sayılar:</strong> Sadece 1'e ve kendisine bölünebilen sayılardır. (2, 3, 5, 7...)</li>
-                    <li><strong>Çarpan Ağacı:</strong> Sayıları asal çarpanlarına ayırma yöntemi. (Örn: 20 = 2 x 2 x 5)</li>
-                </ul>
-                <div class="task-box">
-                    <strong>Görev:</strong> Kitabındaki takvimde 6'nın katlarını incele. Kendi defterine 8'in katlarını çizip, ortak katları işaretle.
-                </div>
-            </div>
+        <!-- Başlangıç Ekranı -->
+        <div class="start-screen" id="start-screen">
+            <h1>Matematik Arenası</h1>
+            <p>6. Sınıf konularından oluşan 5 soruluk meydan okuma. Hazır mısın?</p>
+            <button class="start-btn" onclick="startQuiz()">OYUNA BAŞLA</button>
         </div>
 
-        <!-- MODÜL 2 -->
-        <div class="module-content" id="module-1">
-            <div class="card">
-                <h2>📏 Kesirler, Ondalık ve Uzunluk</h2>
-                <p>Kesir çizgisi aslında bir bölme işaretidir. <span class="highlight">3/4</span>, 3'ün 4'e bölünmesi demektir. Bu da virgüllü (ondalık) gösterim olan <span class="highlight">0,75</span>'e eşittir.</p>
-                <ul>
-                    <li><strong>Uzunluk Ölçüleri:</strong> Aşağı inerken çarp, yukarı çıkarken böl!</li>
-                    <li><strong>Semboller:</strong> dm (desimetre), dam (dekametre), hm (hektometre).</li>
-                </ul>
-                <div class="task-box">
-                    <strong>Görev:</strong> Kitabındaki kareli alanda çizili olan 1/4'lük dilimleri incele. 1 metre kaç desimetredir? Defterine yaz.
+        <!-- Sınav Ekranı -->
+        <div class="quiz-screen" id="quiz-screen">
+            <div class="question-card" id="question-card">
+                <div class="question-text" id="question-text">Soru yükleniyor...</div>
+                <div class="options-container" id="options-container">
+                    <!-- Seçenekler buraya gelecek -->
                 </div>
-            </div>
-        </div>
-
-        <!-- MODÜL 3 -->
-        <div class="module-content" id="module-2">
-            <div class="card">
-                <h2>🎲 Deneysel Olasılık</h2>
-                <p>Bir olayın gerçekleşme sayısının, toplam deneme sayısına bölünmesidir. <br><span class="highlight">Formül = İstenen Durum / Toplam Deneme</span></p>
-                <p>Şimdi aşağıdaki butona basarak kendi deneyini yap! Bilgisayar senin için zar atsın ve olasılıkları hesapla.</p>
-                
-                <div class="dice-sim">
-                    <div class="dice" id="dice-face">?</div>
-                    <button class="roll-btn" onclick="rollDice()">Zarı At (Sesli!)</button>
-                    <p style="margin-top: 15px; color: var(--text-muted);">Toplam Atış: <span id="total-rolls" style="color:white; font-weight:bold;">0</span></p>
-                    <div id="roll-history" style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;"></div>
-                </div>
-
             </div>
         </div>
 
     </div>
 
     <script>
-        // --- SES EFEKTLERİ MOTORU (Web Audio API) ---
-        // Tarayıcının kendi ses motorunu kullanarak dışarıdan dosya indirmeden ses çıkarıyoruz!
+        // --- SES MOTORU (Dışarıdan dosya indirmeden ses üretir) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
         function playSound(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-            if (type === 'click') {
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.1);
-            } else if (type === 'success') {
-                oscillator.type = 'triangle';
-                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
-                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime + 0.1);
-                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.3);
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.05);
             }
         }
 
-        // --- SEKME DEĞİŞTİRME ---
-        function switchTab(index) {
-            playSound('click'); // Ses çıkar
-            
-            // Tüm sekmelerin active sınıfını kaldır
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Tüm içerikleri gizle
-            const contents = document.querySelectorAll('.module-content');
-            contents.forEach(content => content.classList.remove('active'));
+        // --- SORU BANKASI (Senin kitabındaki konulardan harmanlandı) ---
+        const questions = [
+            {
+                question: "Bir zar havaya atılıyor. Üst yüze gelen sayının çift olma olasılığı (deneysel değil, teorik) kaçtır?",
+                options: ["1/2", "1/3", "1/6", "2/3"],
+                correct: 0 // 1/2 (2, 4, 6 çift -> 3/6 = 1/2)
+            },
+            {
+                question: "Bir torbada 3 kırmızı, 4 mavi, 5 yeşil top vardır. Torbadan rastgele çekilen bir topun MAVİ olma olasılığı kaçtır?",
+                options: ["3/12", "4/12", "5/12", "3/4"],
+                correct: 1 // 4/12 (Toplam 12 top, 4'ü mavi)
+            },
+            {
+                question: "12 sayısının asal çarpanları aşağıdakilerden hangisidir?",
+                options: ["1, 2, 3, 4, 6, 12", "2 ve 3", "2, 3 ve 4", "Sadece 2"],
+                correct: 1 // Asal çarpanlar 2 ve 3'tür.
+            },
+            {
+                question: "3/5 kesrinin ondalık gösterimi aşağıdakilerden hangisidir?",
+                options: ["0,35", "0,6", "0,53", "1,66"],
+                correct: 1 // 3 bölü 5 = 0,6
+            },
+            {
+                question: "1 hektometre (hm) kaç metredir?",
+                options: ["10 m", "100 m", "1000 m", "0,1 m"],
+                correct: 1 // 1 hm = 100 m
+            }
+        ];
 
-            // Tıklananı aktif yap
-            buttons[index].classList.add('active');
-            document.getElementById(`module-${index}`).classList.add('active');
+        let currentQuestion = 0;
+        let correctScore = 0;
+        let wrongScore = 0;
+        let canAnswer = true;
+
+        // --- OYUNU BAŞLAT ---
+        function startQuiz() {
+            playSound('click');
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            currentQuestion = 0;
+            correctScore = 0;
+            wrongScore = 0;
+            updateScoreboard();
+            showQuestion();
         }
 
-        // --- ZAR SİMÜLATÖRÜ ---
-        let totalRolls = 0;
-        const counts = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
+        // --- SORUYU GÖSTER ---
+        function showQuestion() {
+            canAnswer = true;
+            const q = questions[currentQuestion];
+            
+            // Soru metnini güncelle
+            document.getElementById('question-text').innerText = q.question;
+            document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${questions.length}`;
 
-        function rollDice() {
-            const diceFace = document.getElementById('dice-face');
-            const totalSpan = document.getElementById('total-rolls');
-            const historyDiv = document.getElementById('roll-history');
+            // Seçenekleri oluştur
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; // Temizle
 
-            // Zar atılıyor animasyonu
-            diceFace.style.animation = 'shake 0.5s';
-            setTimeout(() => { diceFace.style.animation = ''; }, 500);
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; // A, B, C, D şıkları
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
 
-            // 1 ile 6 arasında rastgele sayı üret
+        // --- CEVABI KONTROL ET ---
+        function checkAnswer(selectedIndex, btnElement) {
+            if (!canAnswer) return; // Zaten cevap verildiyse tekrar tıklamayı engelle
+            canAnswer = false;
+
+            const correctIndex = questions[currentQuestion].correct;
+            const allButtons = document.querySelectorAll('.option-btn');
+
+            if (selectedIndex === correctIndex) {
+                // DOĞRU CEVAP
+                playSound('correct');
+                btnElement.classList.add('correct');
+                correctScore++;
+            } else {
+                // YANLIŞ CEVAP
+                playSound('wrong');
+                btnElement.classList.add('wrong');
+                // Doğru cevabı göster
+                allButtons[correctIndex].classList.add('correct');
+                wrongScore++;
+            }
+
+            updateScoreboard();
+
+            // 1.5 saniye sonra sonraki soruya geç veya bitir
             setTimeout(() => {
-                const result = Math.floor(Math.random() * 6) + 1;
-                totalRolls++;
-                counts[result]++;
-
-                // Ses efekti
-                playSound('success');
-
-                // Ekranda güncelle
-                diceFace.innerText = result;
-                totalSpan.innerText = totalRolls;
-                
-                // Deneysel Olasılık Hesaplaması
-                let statsText = "Deneysel Olasılıklar: ";
-                for (let i = 1; i <= 6; i++) {
-                    if (counts[i] > 0) {
-                        let prob = (counts[i] / totalRolls).toFixed(2);
-                        statsText += `${i}-> ${prob}  `;
-                    }
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    showQuestion();
+                } else {
+                    endQuiz();
                 }
-                historyDiv.innerText = statsText;
+            }, 1500);
+        }
 
-            }, 500); // Animasyon bitince sayıyı göster
+        // --- SKORU GÜNCELLE ---
+        function updateScoreboard() {
+            document.getElementById('score-correct').innerText = correctScore;
+            document.getElementById('score-wrong').innerText = wrongScore;
+        }
+
+        // --- OYUNU BİTİR ---
+        function endQuiz() {
+            const quizScreen = document.getElementById('quiz-screen');
+            quizScreen.innerHTML = `
+                <div class="question-card" style="text-align: center;">
+                    <h2 style="color: var(--neon-blue); font-size: 2rem; margin-bottom: 20px;">Oyun Bitti!</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">Toplam Doğru: <span style="color: var(--correct); font-weight: bold;">${correctScore}</span></p>
+                    <p style="font-size: 1.2rem; margin-bottom: 30px;">Toplam Yanlış: <span style="color: var(--wrong); font-weight: bold;">${wrongScore}</span></p>
+                    <button class="start-btn" onclick="location.reload()">TEKRAR OYNA</button>
+                </div>
+            `;
         }
     </script>
 </body>
