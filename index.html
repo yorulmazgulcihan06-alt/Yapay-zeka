@@ -21,7 +21,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Montserrat', sans-serif;
-            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -65,7 +65,7 @@
             width: 100%;
         }
 
-        /* Ekranlar (Başlangıç, Sayı Seçimi, Oyun) */
+        /* Ekranlar */
         .screen {
             text-align: center;
             animation: zoomIn 0.5s ease-out;
@@ -129,11 +129,6 @@
             background: rgba(255,255,255,0.1);
             border-color: var(--neon-blue);
             transform: translateY(-3px);
-        }
-
-        .action-btn span {
-            font-size: 0.9rem;
-            color: #888;
         }
 
         /* Sınav Ekranı */
@@ -367,7 +362,7 @@
                 { q: "Aşağıdakilerden hangisi çift asal sayıdır?", c: "2", w: ["4", "6", "8"], h: "Asal sayıların çoğu tektir. Sadece bir tanesi çifttir. Hangisi?" },
                 { q: "50 sayısının kaç tane asal çarpanı vardır (farklı)?", c: "2", w: ["3", "4", "5"], h: "50 = 2 x 5 x 5. Farklı olanları say." },
                 { q: "9'un 100'den küçük en büyük katı kaçtır?", c: "99", w: ["90", "98", "96"], h: "9x10=90. 9x11=99. 9x12=108. Cevap hangisi?" },
-                { q: "Aşağıdaki sayılardan hangisi 9'a tam bölünür?", c: "81", w: ["72 (hayır 9x8)", "81 (evet)", "90", "99"], h: "Rakamları toplamı 9 veya 9'un katı olmalı. 8+1=9." },
+                { q: "Aşağıdaki sayılardan hangisi 9'a tam bölünür?", c: "81", w: ["72", "90", "99"], h: "Rakamları toplamı 9 veya 9'un katı olmalı. 8+1=9." },
                 { q: "28 sayısının çarpanlarından kaç tanesi tektir?", c: "2", w: ["1", "3", "4"], h: "28 çift sayı olduğu için çarpanların çoğu çifttir. 1 ve 7'yi unutma." },
                 { q: "İki asal sayının toplamı en az kaçtır?", c: "5", w: ["3", "4", "6"], h: "En küçük asal sayılar 2 ve 3'tür. Toplamları?" },
                 { q: "Aşağıdakilerden hangisi 2, 3 ve 5'e tam bölünür?", c: "30", w: ["15", "20", "45"], h: "Bu sayı hem çift olmalı, hem rakamları toplamı 3'ün katı, hem de sonu 0 veya 5 olmalı." },
@@ -403,7 +398,31 @@
                 { q: "Kesin gerçekleşecek bir olayın olasılığı kaçtır?", c: "1", w: ["0", "1/2", "100/10"], h: "Güneşin doğması gibi düşün, ihtimal %100." },
                 { q: "Hilesiz bir madeni para atıldığında 'Yazı' gelme olasılığı?", c: "1/2", w: ["1", "0", "1/4"], h: "İki yüz var, biri bizim istediğimiz." },
                 { q: "Bir zar atıldığında 6'dan küçük sayı gelme olasılığı?", c: "5/6", w: ["1/6", "1/2", "4/6"], h: "1, 2, 3, 4, 5 gelirse 6'dan küçük olur. 6 hariç hepsi." },
-                { q: "Torbada 4 mavi, 4 kırmızı top var. Mavi çekme olasılığı?", c: "1/2", w: ["1/4", "3/4        // --- DİZİYİ KARIŞTIRMA (FISHER-YATES) ---
+                { q: "Torbada 4 mavi, 4 kırmızı top var. Mavi çekme olasılığı?", c: "1/2", w: ["1/4", "3/4", "2/5"], h: "Toplam 8 top var. 4 tanesi mavi. 4/8 sadeleşir mi?" },
+                { q: "Bir zar atıldığında asal sayı gelme olasılığı?", c: "1/2", w: ["1/3", "2/3", "1/6"], h: "Zardaki asal sayılar: 2, 3 ve 5. (3 tane)." },
+                { q: "Bir torbada sadece siyah toplar varsa, siyah çekme olasılığı?", c: "1", w: ["0", "1/2", "1/10"], h: "Kesin bir olay. Başka renk yok." },
+                { q: "Bir zar atıldığında 1 veya 2 gelme olasılığı?", c: "2/6", w: ["1/6", "3/6", "2/2"], h: "2 tane istenen durum var, 6 tane toplam. Sadeleştir." },
+                { q: "Torbada 5 sarı, 5 siyah top var. Sarı gelmeme olasılığı?", c: "1/2", w: ["5", "1/5", "0"], h: "Sarı gelmeme = Siyah gelme. Kaç tane siyah var, kaç tane toplam top var?" },
+                { q: "Bir zar atıldığında 8 gelme olasılığı kaçtır?", c: "0", w: ["1/8", "1/6", "1/2"], h: "Zarda 8 var mı?" },
+                { q: "3 madeni para aynı anda atılırsa kaç farklı sonuç çıkabilir?", c: "8", w: ["6", "4", "3"], h: "Her paranın 2 yüzü var. 2 x 2 x 2 = ?" },
+                { q: "Hilesiz bir zar atıldığında üst yüze gelen sayının 2'den büyük olma olasılığı?", c: "4/6", w: ["2/6", "3/6", "5/6"], h: "2'den büyükler: 3, 4, 5, 6. Yani 4 tane." },
+                { q: "İçinde 3 kırmızı, 2 beyaz top olan torbadan beyaz çekme olasılığı?", c: "2/5", w: ["3/5", "1/2", "2/3"], h: "Toplam 5 top var, 2 tanesi beyaz." },
+                { q: "Bir zar atıldığında çift veya 3 gelme olasılığı?", c: "4/6", w: ["3/6", "1/6", "5/6"], h: "Çiftler: 2, 4, 6. Bir de 3 var. Toplam 4 istenen durum." },
+                { q: "Olasılık değeri hangi aralıkta olur?", c: "0 ile 1 arası", w: ["1 ile 10 arası", "0 ile 100 arası", "Negatif sayılar"], h: "Yüzde olarak düşün: %0 ile %100 (yani 1) arası." },
+                { q: "Torbada 10 top var. Kırmızı gelme olasılığı 1/2 ise kaç kırmızı top vardır?", c: "5", w: ["2", "10", "1"], h: "Toplam 10'un yarısı (1/2) kaç eder?" },
+                { q: "Bir zar atıldığında 5'ten küçük gelme olasılığı?", c: "4/6", w: ["5/6", "1/6", "3/6"], h: "5'ten küçükler: 1, 2, 3, 4." }
+            ]
+        };
+
+        let currentTopic = "";
+        let requestedQuestionCount = 0;
+        let currentQuestion = 0;
+        let correctScore = 0;
+        let wrongScore = 0;
+        let canAnswer = true;
+        let selectedQuestions = []; 
+
+        // --- DİZİYİ KARIŞTIRMA ---
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -416,18 +435,15 @@
         function selectTopic(topic) {
             playSound('click');
             currentTopic = topic;
-            
-            // Konu ekranını gizle, soru sayısı ekranını göster
             document.getElementById('screen-topic').classList.remove('active');
             document.getElementById('screen-count').classList.add('active');
         }
 
-        // --- OYUNU BAŞLAT (Soru Sayısı Seçildikten Sonra) ---
+        // --- OYUNU BAŞLAT ---
         function startQuiz(count) {
             playSound('click');
             requestedQuestionCount = count;
 
-            // Ekranları ayarla
             document.getElementById('screen-count').classList.remove('active');
             document.getElementById('screen-quiz').classList.add('active');
             document.getElementById('scoreboard').style.display = 'flex';
@@ -437,11 +453,9 @@
             wrongScore = 0;
             updateScoreboard();
 
-            // Havuzdan istenen sayıda rastgele soru seç
             let pool = questionBank[currentTopic];
-            let shuffledPool = shuffleArray([...pool]); // Havuzu karıştır
+            let shuffledPool = shuffleArray([...pool]); 
             
-            // Eğer istenen soru sayısı havuzdakinden fazlaysa, havuzun tamamını al
             if (requestedQuestionCount > shuffledPool.length) {
                 selectedQuestions = shuffledPool;
             } else {
@@ -459,13 +473,11 @@
             document.getElementById('question-text').innerText = qData.q;
             document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${selectedQuestions.length}`;
 
-            // İpucu kutusunu sıfırla
             document.getElementById('hint-btn').style.display = 'inline-block';
             const hintBox = document.getElementById('hint-box');
             hintBox.style.display = 'none';
             hintBox.innerText = qData.h; 
 
-            // Şıkları hazırla ve karıştır
             let allOptions = [qData.c, ...qData.w]; 
             allOptions = shuffleArray(allOptions);
             const newCorrectIndex = allOptions.indexOf(qData.c);
@@ -482,10 +494,9 @@
                 optionsContainer.appendChild(btn);
             });
 
-            // Animasyonu yeniden tetikle
             const qCard = document.getElementById('question-card');
             qCard.style.animation = 'none';
-            qCard.offsetHeight; /* trigger reflow */
+            qCard.offsetHeight; 
             qCard.style.animation = 'slideInRight 0.4s ease-out';
         }
 
@@ -551,9 +562,8 @@
                     <button class="action-btn center-text" onclick="location.reload()" style="background: var(--neon-blue); color: black; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; width: 100%;">ANA MENÜYE DÖN</button>
                 </div>
             `;
-            // Skor tablosunu gizle
             document.getElementById('scoreboard').style.display = 'none';
         }
     </script>
-</body/>
+</body>
 </html>
