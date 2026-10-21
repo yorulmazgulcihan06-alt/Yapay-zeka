@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik Arenası | Giriş</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, rgba(15, 23, 42, 1) 0%, #000 100%);
+        }
+
+        /* Arka planda dönen hafif bir ışık efekti */
+        .bg-glow {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.05) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseGlow 4s infinite alternate;
+            pointer-events: none;
+        }
+
+        .intro-container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .intro-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            opacity: 0;
+            transform: scale(0.8);
+            text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue), 0 0 40px var(--neon-pink);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .intro-title.show {
+            opacity: 1;
+            transform: scale(1);
+            letter-spacing: 4px;
+        }
+
+        .intro-subtitle {
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .intro-subtitle.show {
+            opacity: 1;
+        }
+
+        .start-btn-intro {
+            margin-top: 60px;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInBtn 1s forwards 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-btn-intro:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 40px var(--neon-blue);
+            transform: scale(1.05);
+        }
+
+        .start-btn-intro::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: all 0.5s;
+        }
+
+        .start-btn-intro:hover::before {
+            left: 100%;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+        }
+
+        @keyframes fadeInBtn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ekran kararma efekti */
+        #fade-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in;
+            z-index: 999;
+        }
+
+        @media (max-width: 600px) {
+            .intro-title { font-size: 2rem; }
+            .intro-subtitle { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div id="fade-overlay"></div>
+
+    <div class="intro-container">
+        <div class="intro-title" id="intro-title">MATEMATİK<br>ARENASI</div>
+        <div class="intro-subtitle" id="intro-subtitle">Zeka ve Hızın Buluşma Noktası</div>
+        <button class="start-btn-intro" id="intro-btn" onclick="startGame()">Sistemi Başlat</button>
+    </div>
+
+    <script>
+        // --- SES MOTORU ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'intro-bass') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 1.5);
+                gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+                osc.start(); osc.stop(audioCtx.currentTime + 1.5);
+            } else if (type === 'intro-impact') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function startGame() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            playSound('intro-bass');
+            
+            document.getElementById('intro-btn').style.display = 'none';
+            
+            setTimeout(() => {
+                playSound('intro-impact');
+                document.getElementById('intro-title').classList.add('show');
+                
+                setTimeout(() => {
+                    document.getElementById('intro-subtitle').classList.add('show');
+                }, 1000);
+            }, 800);
+
+            setTimeout(() => {
+                const overlay = document.getElementById('fade-overlay');
+                overlay.style.opacity = '1';
+            }, 4000);
+
+            // 4.8 saniye sonra senin oyununa (index.html) yönlendirir
+            setTimeout(() => {
+                window.location.href = 'index.html'; 
+            }, 4800);
+        }
+    </script>
+</body>
+</html>
