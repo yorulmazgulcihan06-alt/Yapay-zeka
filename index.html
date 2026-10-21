@@ -17,85 +17,7 @@
             --p1-color: #38bdf8;
             --p2-color: #f472b6;
         }
-/* --- SİNEMATİK AÇILIŞ EKRANI --- */
-#intro-screen {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: opacity 0.8s ease-out;
-    background-image: radial-gradient(circle at center, rgba(15, 23, 42, 1) 0%, #000 100%);
-}
 
-.intro-title {
-    font-size: 3rem;
-    font-weight: 800;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 8px;
-    opacity: 0;
-    transform: scale(0.8);
-    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue), 0 0 40px var(--neon-pink);
-    transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.intro-title.show {
-    opacity: 1;
-    transform: scale(1);
-    letter-spacing: 4px;
-}
-
-.intro-subtitle {
-    color: var(--neon-blue);
-    font-size: 1.1rem;
-    margin-top: 15px;
-    opacity: 0;
-    transition: opacity 1s ease-in;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 400;
-}
-
-.intro-subtitle.show {
-    opacity: 1;
-}
-
-.start-btn-intro {
-    margin-top: 60px;
-    padding: 18px 50px;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--neon-blue);
-    background: transparent;
-    border: 2px solid var(--neon-blue);
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-    transition: all 0.3s;
-    opacity: 0;
-    animation: fadeInBtn 1s forwards 0.5s;
-    position: relative;
-    overflow: hidden;
-}
-
-.start-btn-intro:hover {
-    background: var(--neon-blue);
-    color: #000;
-    box-shadow: 0 0 40px var(--neon-blue);
-    transform: scale(1.05);
-}
-
-@keyframes fadeInBtn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-        }
         * {
             box-sizing: border-box;
             margin: 0;
@@ -114,6 +36,89 @@
             flex-direction: column;
             overflow-x: hidden;
         }
+
+        /* --- SİNEMATİK AÇILIŞ EKRANI CSS --- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 0.8s ease-out;
+            background-image: radial-gradient(circle at center, rgba(15, 23, 42, 1) 0%, #000 100%);
+        }
+        
+        .intro-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            opacity: 0;
+            transform: scale(0.8);
+            text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-blue), 0 0 40px var(--neon-pink);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .intro-title.show {
+            opacity: 1;
+            transform: scale(1);
+            letter-spacing: 4px;
+        }
+
+        .intro-subtitle {
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .intro-subtitle.show {
+            opacity: 1;
+        }
+
+        .start-btn-intro {
+            margin-top: 60px;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInBtn 1s forwards 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-btn-intro:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 40px var(--neon-blue);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInBtn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ---------------------------------- */
 
         /* Ses Kontrol Butonu */
         .sound-toggle {
@@ -356,6 +361,8 @@
             .question-card { padding: 20px; }
             .scoreboard { flex-direction: column; gap: 10px; }
             .player-score { padding: 5px; }
+            .intro-title { font-size: 2rem; }
+            .intro-subtitle { font-size: 0.9rem; }
         }
 
         .option-btn {
@@ -396,6 +403,13 @@
     </style>
 </head>
 <body>
+
+    <!-- SİNEMATİK AÇILIŞ EKRANI -->
+    <div id="intro-screen">
+        <div class="intro-title" id="intro-title">MATEMATİK<br>ARENASI</div>
+        <div class="intro-subtitle" id="intro-subtitle">Zeka ve Hızın Buluşma Noktası</div>
+        <button class="start-btn-intro" id="intro-btn" onclick="playIntroAnim()">Sistemi Başlat</button>
+    </div>
 
     <button class="sound-toggle" id="sound-toggle" onclick="toggleSound()">🔊</button>
     <canvas id="confetti-canvas"></canvas>
@@ -537,7 +551,7 @@
                 osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+                                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             } else if (type === 'click') {
                 osc.type = 'square'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
                 gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
@@ -556,6 +570,53 @@
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.8);
             }
+        }
+
+        // --- SİNEMATİK AÇILIŞ FONKSİYONU ---
+        function playIntroAnim() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            // Derin vınlama sesi
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 1.5);
+            gain1.gain.setValueAtTime(0.6, audioCtx.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+            osc1.start(); osc1.stop(audioCtx.currentTime + 1.5);
+
+            document.getElementById('intro-btn').style.display = 'none';
+            
+            setTimeout(() => {
+                // Vuruş sesi
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.type = 'square';
+                osc2.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc2.start(); osc2.stop(audioCtx.currentTime + 0.3);
+
+                document.getElementById('intro-title').classList.add('show');
+                
+                setTimeout(() => {
+                    document.getElementById('intro-subtitle').classList.add('show');
+                }, 1000);
+            }, 800);
+
+            setTimeout(() => {
+                const introScreen = document.getElementById('intro-screen');
+                introScreen.style.opacity = '0';
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                }, 800); 
+            }, 4000);
         }
 
         // --- SORU HAVUZLARI ---
@@ -826,8 +887,7 @@
                 btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; 
                 btn.onclick = () => checkAnswer(index, btn);
                 optionsContainer.appendChild(btn);
-            });
-
+            // Animasyonu yeniden tetikle
             const qCard = document.getElementById('question-card');
             qCard.style.animation = 'none';
             qCard.offsetHeight; 
@@ -979,7 +1039,7 @@
             let titleColor = "var(--neon-blue)";
             let winnerText = "";
 
-                        // Rekor kontrolü (Sadece 1 kişilikte)
+            // Rekor kontrolü (Sadece 1 kişilikte)
             let highScoreMsg = "";
             if(gameMode === 'single') {
                 let currentRecord = localStorage.getItem('mathArenaHighScore') || 0;
@@ -1104,3 +1164,4 @@
     </script>
 </body>
 </html>
+           
