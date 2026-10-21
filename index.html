@@ -3,73 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Utkan Terminal v1</title>
+    <title>6. Sınıf Matematik - Premium Çalışma Alanı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #0f0; font-family: monospace; margin: 0; padding: 20px; }
-        #output { height: 300px; overflow-y: auto; border-bottom: 1px solid #333; margin-bottom: 10px; padding: 10px; }
-        .input-line { display: flex; }
-        .prompt { color: #0f0; margin-right: 10px; }
-        input { background: transparent; border: none; color: #0f0; outline: none; font-family: monospace; font-size: 16px; width: 100%; }
-        button#closeBtn { position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: red; color: white; display: none; z-index: 10000; border: none; cursor: pointer; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --accent: #f472b6;
+            --success: #4ade80;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.15), transparent 25%);
+            overflow-x: hidden;
+        }
+
+        /* Animasyonlu Başlık */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Sekmeler (Tabs) */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            box-shadow: 0 10px 20px -10px var(--primary);
+        }
+
+        /* İçerik Alanı */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 50px 20px;
+        }
+
+        .module-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .module-content.active {
+            display: block;
+        }
+
+        /* Kart Tasarımı (Glassmorphism) */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p, .card ul {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .card ul { padding-left: 20px; }
+        .card li { margin-bottom: 8px; }
+
+        .highlight {
+            color: var(--text-main);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Görev Kutusu */
+        .task-box {
+            background: rgba(244, 114, 182, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 20px;
+        }
+        
+        .task-box strong { color: var(--accent); }
+
+        /* İnteraktif Zar Simülatörü */
+        .dice-sim {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: white;
+            color: #1e293b;
+            font-size: 3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            margin: 20px auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+
+        .roll-btn {
+            background: var(--success);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .roll-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--success);
+        }
+
+        .roll-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Animasyonlar */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
     </style>
 </head>
 <body>
 
-<button id="closeBtn" onclick="location.reload()">OYUNU KAPAT</button>
-<div id="main-ui">
-    <div id="output">Merhaba, size nasıl yardımcı olabilirim? (Komutlar: oyun, puan, sa, mal, selam veya soru sor...)</div>
-    <div class="input-line">
-        <span class="prompt">>></span>
-        <input type="text" id="commandInput" autofocus onkeydown="if(event.key === 'Enter') executeCommand()">
+    <header>
+        <h1>Matematik Ustası</h1>
+        <p>6. Sınıf İnteraktif Çalışma Platformu</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">1. Sayılar ve Nicelikler</button>
+        <button class="tab-btn" onclick="switchTab(1)">2. Sayılar ve Nicelikler (2)</button>
+        <button class="tab-btn" onclick="switchTab(2)">3. Veriden Olasılığa</button>
     </div>
-</div>
 
-<div id="game-area"></div>
-
-<script>
-    // Senin değişkenlerin aynen korunuyor
-    let puan = "40000";
-    let mal = "sen hihihihihih";
-    let sa = "aleykum selam gardas";
-    let siktir = "merhaba size nasil yardimci olabilirim";
-
-    const input = document.getElementById('commandInput');
-    const output = document.getElementById('output');
-    const gameArea = document.getElementById('game-area');
-    const mainUI = document.getElementById('main-ui');
-    const closeBtn = document.getElementById('closeBtn');
-
-    function printToScreen(text) {
-        output.innerHTML += `<div>${text}</div>`;
-        output.scrollTop = output.scrollHeight;
-    }
-
-    function executeCommand() {
-        let cmd = input.value.toLowerCase().trim();
-        printToScreen(`<span style="color:white">>> ${cmd}</span>`);
-        input.value = "";
-
-        // 1. Senin Özel Komutların
-        if (cmd === "oyun") {
-            mainUI.style.display = "none";
-            closeBtn.style.display = "block";
-            gameArea.innerHTML = `<iframe src="https://www.google.com/logos/2010/pacman10-i.html" style="width:100%; height:100vh; border:none;"></iframe>`;
-        } 
-        else if (cmd === "puan") { printToScreen("Sistem Puanı: " + puan); }
-        else if (cmd === "sa") { printToScreen(sa); }
-        else if (cmd === "mal") { printToScreen(mal); }
-        else if (cmd === "selam") { printToScreen(siktir); }
+    <div class="container">
         
-        // 2. Basit Yapay Zeka Cevapları (Abartmadan)
-        else if (cmd.includes("nasılsın")) { printToScreen("Yapay zeka olduğum için hep aynıyım, sen nasılsın?"); }
-        else if (cmd.includes("kimsin")) { printToScreen("Ben Utkan'ın kodladığı terminal tabanlı bir asistanım."); }
-        else if (cmd === "temizle") { output.innerHTML = ""; }
-        
-        // 3. Bilinmeyen Durum
-        else {
-            printToScreen("AI: Bu komutu henüz öğrenmedim ama üzerinde çalışıyorum!");
+        <!-- MODÜL 1 -->
+        <div class="module-content active" id="module-0">
+            <div class="card">
+                <h2>🔢 Çarpanlar, Katlar ve Asallar</h2>
+                <p>Sayıların dünyasına hoş geldin. Bir sayıyı tam bölen sayılara <span class="highlight">çarpan</span>, bir sayının ritmik artışlarına ise <span class="highlight">kat</span> denir.</p>
+                <ul>
+                    <li><strong>Asal Sayılar:</strong> Sadece 1'e ve kendisine bölünebilen sayılardır. (2, 3, 5, 7...)</li>
+                    <li><strong>Çarpan Ağacı:</strong> Sayıları asal çarpanlarına ayırma yöntemi. (Örn: 20 = 2 x 2 x 5)</li>
+                </ul>
+                <div class="task-box">
+                    <strong>Görev:</strong> Kitabındaki takvimde 6'nın katlarını incele. Kendi defterine 8'in katlarını çizip, ortak katları işaretle.
+                </div>
+            </div>
+        </div>
+
+        <!-- MODÜL 2 -->
+        <div class="module-content" id="module-1">
+            <div class="card">
+                <h2>📏 Kesirler, Ondalık ve Uzunluk</h2>
+                <p>Kesir çizgisi aslında bir bölme işaretidir. <span class="highlight">3/4</span>, 3'ün 4'e bölünmesi demektir. Bu da virgüllü (ondalık) gösterim olan <span class="highlight">0,75</span>'e eşittir.</p>
+                <ul>
+                    <li><strong>Uzunluk Ölçüleri:</strong> Aşağı inerken çarp, yukarı çıkarken böl!</li>
+                    <li><strong>Semboller:</strong> dm (desimetre), dam (dekametre), hm (hektometre).</li>
+                </ul>
+                <div class="task-box">
+                    <strong>Görev:</strong> Kitabındaki kareli alanda çizili olan 1/4'lük dilimleri incele. 1 metre kaç desimetredir? Defterine yaz.
+                </div>
+            </div>
+        </div>
+
+        <!-- MODÜL 3 -->
+        <div class="module-content" id="module-2">
+            <div class="card">
+                <h2>🎲 Deneysel Olasılık</h2>
+                <p>Bir olayın gerçekleşme sayısının, toplam deneme sayısına bölünmesidir. <br><span class="highlight">Formül = İstenen Durum / Toplam Deneme</span></p>
+                <p>Şimdi aşağıdaki butona basarak kendi deneyini yap! Bilgisayar senin için zar atsın ve olasılıkları hesapla.</p>
+                
+                <div class="dice-sim">
+                    <div class="dice" id="dice-face">?</div>
+                    <button class="roll-btn" onclick="rollDice()">Zarı At (Sesli!)</button>
+                    <p style="margin-top: 15px; color: var(--text-muted);">Toplam Atış: <span id="total-rolls" style="color:white; font-weight:bold;">0</span></p>
+                    <div id="roll-history" style="font-size: 0.9rem; color: var(--secondary); margin-top: 10px;"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- SES EFEKTLERİ MOTORU (Web Audio API) ---
+        // Tarayıcının kendi ses motorunu kullanarak dışarıdan dosya indirmeden ses çıkarıyoruz!
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'click') {
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'success') {
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            }
         }
-    }
-</script>
+
+        // --- SEKME DEĞİŞTİRME ---
+        function switchTab(index) {
+            playSound('click'); // Ses çıkar
+            
+            // Tüm sekmelerin active sınıfını kaldır
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Tüm içerikleri gizle
+            const contents = document.querySelectorAll('.module-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Tıklananı aktif yap
+            buttons[index].classList.add('active');
+            document.getElementById(`module-${index}`).classList.add('active');
+        }
+
+        // --- ZAR SİMÜLATÖRÜ ---
+        let totalRolls = 0;
+        const counts = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
+
+        function rollDice() {
+            const diceFace = document.getElementById('dice-face');
+            const totalSpan = document.getElementById('total-rolls');
+            const historyDiv = document.getElementById('roll-history');
+
+            // Zar atılıyor animasyonu
+            diceFace.style.animation = 'shake 0.5s';
+            setTimeout(() => { diceFace.style.animation = ''; }, 500);
+
+            // 1 ile 6 arasında rastgele sayı üret
+            setTimeout(() => {
+                const result = Math.floor(Math.random() * 6) + 1;
+                totalRolls++;
+                counts[result]++;
+
+                // Ses efekti
+                playSound('success');
+
+                // Ekranda güncelle
+                diceFace.innerText = result;
+                totalSpan.innerText = totalRolls;
+                
+                // Deneysel Olasılık Hesaplaması
+                let statsText = "Deneysel Olasılıklar: ";
+                for (let i = 1; i <= 6; i++) {
+                    if (counts[i] > 0) {
+                        let prob = (counts[i] / totalRolls).toFixed(2);
+                        statsText += `${i}-> ${prob}  `;
+                    }
+                }
+                historyDiv.innerText = statsText;
+
+            }, 500); // Animasyon bitince sayıyı göster
+        }
+    </script>
 </body>
 </html>
