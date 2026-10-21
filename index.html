@@ -495,4 +495,534 @@
                     { q: "Aşağıdaki sayılardan hangisi 3 ile kalansız bölünür?", c: "123", w: ["124", "125", "128"], h: "Rakamların toplamı 3'ün katı olmalı. 1+2+3 kaç eder?" },
                     { q: "15 ve 20 sayılarının ortak bölenlerinin en büyüğü (EBOB) kaçtır?", c: "5", w: ["3", "4", "10"], h: "15'i bölenler: 1, 3, 5, 15. 20'yi bölenler: 1, 2, 4, 5, 10, 20." },
                     { q: "20 sayısının asal çarpanlarının toplamı kaçtır?", c: "7", w: ["5", "9", "10"], h: "20'nin asal çarpanları 2 ve 5'tir (2x2x5). Bunları topla." },
-                    { q: "Aşağıd
+                    { q: "Aşağıdakilerden hangisi 2, 3 ve 5'e tam bölünür?", c: "30", w: ["15", "20", "45"], h: "Bu sayı hem çift olmalı, hem rakamları toplamı 3'ün katı, hem de sonu 0 veya 5 olmalı." }
+                ],
+                'zor': [
+                    { q: "İki basamaklı en büyük asal sayı kaçtır?", c: "97", w: ["99", "91", "89"], h: "99, 3'e bölünür. 91 ise 7x13'tür. 97'yi bölen bir sayı var mı?" },
+                    { q: "İki asal sayının toplamı en az kaçtır?", c: "5", w: ["3", "4", "6"], h: "En küçük asal sayılar 2 ve 3'tür. Toplamları?" },
+                    { q: "28 sayısının çarpanlarından kaç tanesi tektir?", c: "2", w: ["1", "3", "4"], h: "28 çift sayı olduğu için çarpanların çoğu çifttir. 1 ve 7'yi unutma." },
+                    { q: "9'un 100'den küçük en büyük katı kaçtır?", c: "99", w: ["90", "98", "96"], h: "9x10=90. 9x11=99. 9x12=108." },
+                    { q: "50 sayısının kaç tane asal çarpanı vardır (farklı)?", c: "2", w: ["3", "4", "5"], h: "50 = 2 x 5 x 5. Farklı olanları say." }
+                ]
+            },
+            'kesirler': {
+                'kolay': [
+                    { q: "1/2 kesrinin yüzde karşılığı nedir?", c: "%50", w: ["%20", "%25", "%100"], h: "Yarım demek, bütünün yarısı demektir." },
+                    { q: "1/4 + 2/4 işleminin sonucu nedir?", c: "3/4", w: ["3/8", "2/4", "1/2"], h: "Paydalar aynı, sadece üstteki sayıları topla." },
+                    { q: "1/3 + 1/3 + 1/3 işleminin sonucu nedir?", c: "1", w: ["3/6", "1/3", "2/3"], h: "Üç tane 1/3 birleşirse bir bütün eder." },
+                    { q: "1 saat kaç dakikadır?", c: "60", w: ["100", "30", "24"], h: "Zaman ölçüsü, klasik bilgi." },
+                    { q: "2/5 kesrinin ondalık gösterimi nedir?", c: "0,4", w: ["0,25", "0,5", "0,2"], h: "2'yi 5'e böl. 20'de 5, 4 kere var." }
+                ],
+                'orta': [
+                    { q: "1,2 sayısı hangi kesre eşittir?", c: "12/10", w: ["1/2", "2/10", "12/100"], h: "Virgülden sonra bir basamak var, o zaman payda 10 olacak." },
+                    { q: "0,6 - 0,2 işleminin sonucu nedir?", c: "0,4", w: ["0,8", "0,3", "0,12"], h: "6'dan 2 çıkarsa 4 kalır. Virgül aynı hizada." },
+                    { q: "0,5 + 0,25 işleminin sonucu nedir?", c: "0,75", w: ["0,30", "0,55", "1,0"], h: "Virgülleri alt alta getirerek topla." },
+                    { q: "3 metre kaç santimetredir?", c: "300 cm", w: ["30 cm", "3000 cm", "0,3 cm"], h: "1 m = 100 cm. 3 ile çarp." },
+                    { q: "Bir bütünün 1/8'i, yüzde kaçtır?", c: "12,5", w: ["8", "18", "25"], h: "100'ü 8'e bölersen kaç çıkar? (100/8)" }
+                ],
+                'zor': [
+                    { q: "Aşağıdakilerden hangisi 0,1'den küçüktür?", c: "0,05", w: ["0,2", "0,15", "0,11"], h: "Ondalık sayılarda sola doğru gidildikçe sayı küçülür." },
+                    { q: "1 metre + 50 cm toplamı kaç cm'dir?", c: "150 cm", w: ["51 cm", "105 cm", "1500 cm"], h: "Önce 1 metreyi cm'ye çevir (100 cm), sonra 50 ile topla." },
+                    { q: "Hangisi daha büyüktür: 1/2 mi, 1/3 mü?", c: "1/2", w: ["1/3", "Eşittir", "Bilinemez"], h: "Bir pastayı 2'ye mi yoksa 3'e mi bölmek daha büyük dilim verir?" },
+                    { q: "0,75 ondalık gösterimi hangi kesre eşittir?", c: "3/4", w: ["1/4", "1/2", "2/3"], h: "0,75 = 75/100. Sadeleştirirsen?" },
+                    { q: "500 cm kaç metredir?", c: "5 m", w: ["50 m", "0,5 m", "5000 m"], h: "100 cm = 1 m ise, 500 cm kaç m'dir?" }
+                ]
+            },
+            'olasilik': {
+                'kolay': [
+                    { q: "İmkansız bir olayın olasılığı kaçtır?", c: "0", w: ["1", "1/2", "-1"], h: "Hiç gerçekleşmeyecek bir şeyin şansı yüzde kaçtır?" },
+                    { q: "Kesin gerçekleşecek bir olayın olasılığı kaçtır?", c: "1", w: ["0", "1/2", "100/10"], h: "Güneşin doğması gibi düşün, ihtimal %100." },
+                    { q: "Hilesiz bir madeni para atıldığında 'Yazı' gelme olasılığı?", c: "1/2", w: ["1", "0", "1/4"], h: "İki yüz var, biri bizim istediğimiz." },
+                    { q: "Bir zar atıldığında 3 gelme olasılığı kaçtır?", c: "1/6", w: ["1/3", "1/2", "1/4"], h: "Zarda 6 yüz var ve sadece 1 tanesi 3." },
+                    { q: "Bir zar atıldığında 8 gelme olasılığı kaçtır?", c: "0", w: ["1/8", "1/6", "1/2"], h: "Zarda 8 var mı?" }
+                ],
+                'orta': [
+                    { q: "Bir zar atıldığında tek sayı gelme olasılığı kaçtır?", c: "1/2", w: ["1/3", "1/6", "2/3"], h: "Tek sayılar: 1, 3, 5. Yani 3 tane. 3/6 sadeleşirse?" },
+                    { q: "Torbada 2 kırmızı, 3 yeşil top var. Yeşil çekme olasılığı?", c: "3/5", w: ["2/5", "1/2", "1/3"], h: "Toplam 5 top var. 3 tanesi yeşil." },
+                    { q: "Bir zar atıldığında 6'dan küçük sayı gelme olasılığı?", c: "5/6", w: ["1/6", "1/2", "4/6"], h: "1, 2, 3, 4, 5 gelirse 6'dan küçük olur. 6 hariç hepsi." },
+                    { q: "Torbada 4 mavi, 4 kırmızı top var. Mavi çekme olasılığı?", c: "1/2", w: ["1/4", "3/4", "2/5"], h: "Toplam 8 top var. 4 tanesi mavi. 4/8 sadeleşir mi?" },
+                    { q: "Bir zar atıldığında asal sayı gelme olasılığı?", c: "1/2", w: ["1/3", "2/3", "1/6"], h: "Zardaki asal sayılar: 2, 3 ve 5. (3 tane)." }
+                ],
+                'zor': [
+                    { q: "Torbada 5 sarı, 5 siyah top var. Sarı gelmeme olasılığı?", c: "1/2", w: ["5", "1/5", "0"], h: "Sarı gelmeme = Siyah gelme. Kaç tane siyah var, kaç tane toplam top var?" },
+                    { q: "3 madeni para aynı anda atılırsa kaç farklı sonuç çıkabilir?", c: "8", w: ["6", "4", "3"], h: "Her paranın 2 yüzü var. 2 x 2 x 2 = ?" },
+                    { q: "Hilesiz bir zar atıldığında üst yüze gelen sayının 2'den büyük olma olasılığı?", c: "4/6", w: ["2/6", "3/6", "5/6"], h: "2'den büyükler: 3, 4, 5, 6. Yani 4 tane." },
+                    { q: "İçinde 3 kırmızı, 2 beyaz top olan torbadan beyaz çekme olasılığı?", c: "2/5", w: ["3/5", "1/2", "2/3"], h: "Toplam 5 top var, 2 tanesi beyaz." },
+                    { q: "Bir zar atıldığında çift veya 3 gelme olasılığı?", c: "4/6", w: ["3/6", "1/6", "5/6"], h: "Çiftler: 2, 4, 6. Bir de 3 var. Toplam 4 istenen durum." }
+                ]
+            }
+        };
+
+        // --- DEĞİŞKENLER ---
+        let gameMode = 'single';
+        let player1Name = "OYUNCU 1";
+        let player2Name = "OYUNCU 2";
+        
+        let currentTopic = "";
+        let currentDifficulty = "";
+        let requestedQuestionCount = 0;
+        let currentQuestion = 0;
+        
+        let activePlayer = 1; 
+        let p1Correct = 0, p1Wrong = 0, p1Lives = 3;
+        let p2Correct = 0, p2Wrong = 0, p2Lives = 3;
+
+        let canAnswer = true;
+        let selectedQuestions = []; 
+        
+        let timerInterval;
+        let timeLeft = 30;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // --- OYUNCU SAYISI SEÇİMİ ---
+        function selectMode(mode) {
+            playSound('click');
+            gameMode = mode;
+            
+            document.getElementById('screen-players').classList.remove('active');
+            document.getElementById('screen-names').classList.add('active');
+
+            if (mode === 'multi') {
+                document.getElementById('input-p2').style.display = 'block';
+                document.getElementById('input-p2').placeholder = "2. Oyuncu Adı";
+            } else {
+                document.getElementById('input-p2').style.display = 'none';
+            }
+        }
+
+        // --- İSİMLERİ KAYDET ---
+        function saveNames() {
+            playSound('click');
+            let p1Input = document.getElementById('input-p1').value.trim();
+            let p2Input = document.getElementById('input-p2').value.trim();
+
+            player1Name = p1Input !== "" ? p1Input.toUpperCase() : "OYUNCU 1";
+            if(gameMode === 'multi') {
+                player2Name = p2Input !== "" ? p2Input.toUpperCase() : "OYUNCU 2";
+                document.getElementById('p2-panel').style.display = 'flex';
+                document.getElementById('timer-box').style.display = 'block';
+            } else {
+                document.getElementById('p2-panel').style.display = 'none';
+                document.getElementById('timer-box').style.display = 'none';
+            }
+
+            document.getElementById('display-p1-name').innerText = player1Name;
+            document.getElementById('display-p2-name').innerText = player2Name;
+
+            document.getElementById('screen-names').classList.remove('active');
+            document.getElementById('screen-topic').classList.add('active');
+        }
+
+        // --- KONU SEÇİMİ ---
+        function selectTopic(topic) {
+            playSound('click');
+            currentTopic = topic;
+            document.getElementById('screen-topic').classList.remove('active');
+            document.getElementById('screen-difficulty').classList.add('active');
+        }
+
+        // --- ZORLUK SEÇİMİ ---
+        function selectDifficulty(diff) {
+            playSound('click');
+            currentDifficulty = diff;
+            document.getElementById('screen-difficulty').classList.remove('active');
+            document.getElementById('screen-count').classList.add('active');
+        }
+
+        // --- YAPAY ZEKA SORU ÜRETİCİ ---
+        function generateAISoru(topic) {
+            let a = Math.floor(Math.random() * 20) + 1;
+            let b = Math.floor(Math.random() * 10) + 1;
+            let correct, wrongs, qText, hint;
+
+            if (topic === 'sayilar') {
+                let ops = ['bolunme', 'çarpan', 'asal'];
+                let op = ops[Math.floor(Math.random() * ops.length)];
+                if (op === 'bolunme') {
+                    let divisor = [2, 3, 5][Math.floor(Math.random() * 3)];
+                    let num = divisor * (Math.floor(Math.random() * 20) + 1);
+                    qText = `Yapay Zeka: ${num} sayısı aşağıdakilerden hangisine tam bölünür?`;
+                    correct = divisor.toString();
+                    wrongs = ["7", "9", "11"].filter(x => x !== correct.toString()).slice(0,3);
+                    hint = "Bölünebilme kurallarını düşün.";
+                } else {
+                    qText = `Yapay Zeka: ${a} x ${b} işleminin sonucu kaçtır?`;
+                    correct = (a * b).toString();
+                    wrongs = [(a * b + 2).toString(), (a * b - 1).toString(), (a * b + 5).toString()];
+                    hint = "Çarpma işlemini kullan.";
+                }
+            } else if (topic === 'kesirler') {
+                qText = `Yapay Zeka: ${a} sayısının yarısı (1/2'si) kaçtır?`;
+                correct = (a / 2).toString().replace('.', ',');
+                wrongs = [(a * 2).toString(), (a / 4).toString().replace('.', ','), (a - 2).toString()];
+                hint = "Sayıyı 2'ye böl.";
+            } else {
+                let total = Math.floor(Math.random() * 10) + 5;
+                let target = Math.floor(Math.random() * total) + 1;
+                qText = `Yapay Zeka: İçinde ${total} top olan torbada ${target} kırmızı top var. Kırmızı çekme olasılığı?`;
+                correct = `${target}/${total}`;
+                wrongs = [`1/${total}`, `${target}/${total+1}`, `1/2`];
+                hint = "İstenen durum / Toplam durum.";
+            }
+
+            let options = [correct, ...wrongs];
+            return { q: qText, c: correct, w: options.filter(x => x !== correct).slice(0,3), h: hint };
+        }
+
+        // --- OYUNU BAŞLAT ---
+        function startQuiz(count) {
+            playSound('click');
+            requestedQuestionCount = count;
+
+            document.getElementById('screen-count').classList.remove('active');
+            document.getElementById('screen-quiz').classList.add('active');
+            document.getElementById('scoreboard').style.display = 'flex';
+            
+            currentQuestion = 0;
+            p1Correct = 0; p1Wrong = 0; p1Lives = 3;
+            p2Correct = 0; p2Wrong = 0; p2Lives = 3;
+            activePlayer = 1; 
+            
+            updateScoreboard();
+
+            let pool = [];
+            if (currentDifficulty === 'ai') {
+                for (let i = 0; i < requestedQuestionCount; i++) {
+                    pool.push(generateAISoru(currentTopic));
+                }
+            } else {
+                let basePool = questionBank[currentTopic][currentDifficulty];
+                while(basePool.length < requestedQuestionCount) {
+                    basePool = basePool.concat(basePool);
+                }
+                pool = shuffleArray([...basePool]).slice(0, requestedQuestionCount);
+            }
+            
+            selectedQuestions = pool;
+            showQuestion();
+        }
+
+        // --- SORUYU GÖSTER ---
+        function showQuestion() {
+            canAnswer = true;
+            
+            if(gameMode === 'multi') {
+                if(activePlayer === 1) {
+                    document.getElementById('p1-panel').classList.add('active-turn');
+                    document.getElementById('p2-panel').classList.remove('active-turn');
+                } else {
+                    document.getElementById('p2-panel').classList.add('active-turn');
+                    document.getElementById('p1-panel').classList.remove('active-turn');
+                }
+            } else {
+                document.getElementById('p1-panel').classList.add('active-turn');
+            }
+
+            const qData = selectedQuestions[currentQuestion];
+            document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${selectedQuestions.length}`;
+
+            document.getElementById('hint-btn').style.display = 'inline-block';
+            const hintBox = document.getElementById('hint-box');
+            hintBox.style.display = 'none';
+            hintBox.innerText = qData.h || "Bu soru için ipucu yok!";
+
+            let allOptions = [qData.c, ...qData.w]; 
+            allOptions = shuffleArray(allOptions);
+            const newCorrectIndex = allOptions.indexOf(qData.c);
+            qData.currentCorrectIndex = newCorrectIndex; 
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = ''; 
+
+            allOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; 
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            const qCard = document.getElementById('question-card');
+            qCard.style.animation = 'none';
+            qCard.offsetHeight; 
+            qCard.style.animation = 'slideInRight 0.4s ease-out';
+
+            if(gameMode === 'multi') {
+                startTimer();
+            }
+        }
+
+        // --- SÜRE YÖNETİMİ ---
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            const timerBox = document.getElementById('timer-box');
+            timerBox.innerText = `⏱️ ${timeLeft}`;
+            timerBox.classList.remove('danger');
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerBox.innerText = `⏱️ ${timeLeft}`;
+                
+                if(timeLeft <= 5) {
+                    timerBox.classList.add('danger');
+                }
+
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // --- SÜRE BİTTİĞİNDE ---
+        function handleTimeOut() {
+            if(!canAnswer) return;
+            canAnswer = false;
+            playSound('wrong');
+            
+            const correctIndex = selectedQuestions[currentQuestion].currentCorrectIndex;
+            const allButtons = document.querySelectorAll('.option-btn');
+            allButtons[correctIndex].classList.add('correct');
+            
+            applyPenalty();
+
+            setTimeout(nextTurn, 2000);
+        }
+
+        function showHint() {
+            playSound('hint'); 
+            const hintBox = document.getElementById('hint-box');
+            const hintBtn = document.getElementById('hint-btn');
+            
+            if(hintBox.style.display === 'none' || hintBox.style.display === '') {
+                hintBox.style.display = 'block';
+                hintBtn.style.display = 'none'; 
+            }
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (!canAnswer) return; 
+            canAnswer = false;
+            stopTimer();
+
+            const correctIndex = selectedQuestions[currentQuestion].currentCorrectIndex;
+            const allButtons = document.querySelectorAll('.option-btn');
+
+            document.getElementById('hint-box').style.display = 'none';
+            document.getElementById('hint-btn').style.display = 'none';
+
+            if (selectedIndex === correctIndex) {
+                playSound('correct');
+                btnElement.classList.add('correct');
+                addPoints(true);
+            } else {
+                playSound('wrong');
+                btnElement.classList.add('wrong');
+                allButtons[correctIndex].classList.add('correct'); 
+                addPoints(false);
+            }
+
+            updateScoreboard();
+
+            if ((activePlayer === 1 && p1Lives === 0) || (activePlayer === 2 && p2Lives === 0)) {
+                setTimeout(() => { playSound('gameover'); endQuiz(); }, 1500);
+                return;
+            }
+
+            setTimeout(nextTurn, 1500);
+        }
+
+        function addPoints(isCorrect) {
+            if (activePlayer === 1) {
+                if(isCorrect) p1Correct++; else { p1Wrong++; p1Lives--; }
+            } else {
+                if(isCorrect) p2Correct++; else { p2Wrong++; p2Lives--; }
+            }
+        }
+
+        function applyPenalty() {
+            if (activePlayer === 1) {
+                p1Wrong++; p1Lives--;
+            } else {
+                p2Wrong++; p2Lives--;
+            }
+            updateScoreboard();
+        }
+
+        function nextTurn() {
+            currentQuestion++;
+
+            if (p2Lives === 0 && gameMode === 'multi') {
+                playSound('gameover'); endQuiz(); return;
+            }
+
+            if (currentQuestion < selectedQuestions.length) {
+                if (gameMode === 'multi') {
+                    activePlayer = activePlayer === 1 ? 2 : 1;
+                }
+                showQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function updateScoreboard() {
+            document.getElementById('p1-correct').innerText = p1Correct;
+            document.getElementById('p1-wrong').innerText = p1Wrong;
+            let p1Hearts = "❤️".repeat(p1Lives) + "🖤".repeat(3 - p1Lives);
+            document.getElementById('p1-lives').innerText = p1Hearts;
+
+            if (gameMode === 'multi') {
+                document.getElementById('p2-correct').innerText = p2Correct;
+                document.getElementById('p2-wrong').innerText = p2Wrong;
+                let p2Hearts = "❤️".repeat(p2Lives) + "🖤".repeat(3 - p2Lives);
+                document.getElementById('p2-lives').innerText = p2Hearts;
+            }
+        }
+
+        // --- OYUNU BİTİR VE REKOR KONTROLÜ ---
+        function endQuiz() {
+            stopTimer();
+            const quizScreen = document.getElementById('screen-quiz');
+            let title = "";
+            let titleColor = "var(--neon-blue)";
+            let winnerText = "";
+
+                        // Rekor kontrolü (Sadece 1 kişilikte)
+            let highScoreMsg = "";
+            if(gameMode === 'single') {
+                let currentRecord = localStorage.getItem('mathArenaHighScore') || 0;
+                if(p1Correct > currentRecord) {
+                    localStorage.setItem('mathArenaHighScore', p1Correct);
+                    highScoreMsg = `<p style="color: var(--neon-pink); font-weight: bold; font-size: 1.2rem; margin-top: 15px;">🎉 YENİ REKOR! (Eski Rekor: ${currentRecord})</p>`;
+                } else {
+                    highScoreMsg = `<p style="color: #aaa; margin-top: 15px;">Rekorun: ${currentRecord} Doğru</p>`;
+                }
+            }
+
+            if (gameMode === 'multi') {
+                if (p1Lives === 0) {
+                    title = `🏆 ${player2Name} KAZANDI!`;
+                    titleColor = "var(--p2-color)";
+                    winnerText = `${player1Name}'in canı bitti.`;
+                    startConfetti();
+                } else if (p2Lives === 0) {
+                    title = `🏆 ${player1Name} KAZANDI!`;
+                    titleColor = "var(--p1-color)";
+                    winnerText = `${player2Name}'nin canı bitti.`;
+                    startConfetti();
+                } else {
+                    if (p1Correct > p2Correct) {
+                        title = `🏆 ${player1Name} KAZANDI!`;
+                        titleColor = "var(--p1-color)";
+                        startConfetti();
+                    } else if (p2Correct > p1Correct) {
+                        title = `🏆 ${player2Name} KAZANDI!`;
+                        titleColor = "var(--p2-color)";
+                        startConfetti();
+                    } else {
+                        title = "🤝 BERABERE!";
+                        titleColor = "white";
+                    }
+                    winnerText = "Oyun tamamlandı.";
+                }
+            } else {
+                title = p1Lives === 0 ? "💀 Canın Bitti!" : "🏆 Meydan Okuma Tamamlandı!";
+                titleColor = p1Lives === 0 ? "var(--wrong)" : "var(--neon-blue)";
+            }
+
+            quizScreen.innerHTML = `
+                <div class="question-card" style="text-align: center; animation: zoomIn 0.5s ease-out;">
+                    <h2 style="color: ${titleColor}; font-size: 2rem; margin-bottom: 20px;">${title}</h2>
+                    <p style="font-size: 1rem; color: #aaa; margin-bottom: 20px;">${winnerText}</p>
+                    ${highScoreMsg}
+                    
+                    <div style="display: flex; justify-content: space-around; margin-bottom: 30px; margin-top: 20px;">
+                        <div style="background: rgba(56, 189, 248, 0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--p1-color); flex: 1; margin: 0 10px;">
+                            <h3 style="color: var(--p1-color); font-size: 1rem;">${player1Name}</h3>
+                            <p>Doğru: <b>${p1Correct}</b></p>
+                            <p>Yanlış: <b>${p1Wrong}</b></p>
+                        </div>
+                        ${gameMode === 'multi' ? `
+                        <div style="background: rgba(244, 114, 182, 0.1); padding: 15px; border-radius: 10px; border: 1px solid var(--p2-color); flex: 1; margin: 0 10px;">
+                            <h3 style="color: var(--p2-color); font-size: 1rem;">${player2Name}</h3>
+                            <p>Doğru: <b>${p2Correct}</b></p>
+                            <p>Yanlış: <b>${p2Wrong}</b></p>
+                        </div>` : ''}
+                    </div>
+
+                    <button class="action-btn" onclick="location.reload()" style="background: var(--neon-blue); color: black; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; width: 100%;">ANA MENÜYE DÖN</button>
+                </div>
+            `;
+            document.getElementById('scoreboard').style.display = 'none';
+        }
+
+        // --- KONFETİ EFEKTİ ---
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const colors = ['#00f3ff', '#ff00ea', '#00ff88', '#ffffff'];
+
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 5 - 2.5
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let activeParticles = 0;
+
+                particles.forEach(p => {
+                    if (p.y < canvas.height) {
+                        activeParticles++;
+                        p.y += p.speedY;
+                        p.x += p.speedX;
+                        p.rotation += p.rotationSpeed;
+
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.rotation * Math.PI / 180);
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+                        ctx.restore();
+                    }
+                });
+
+                if (activeParticles > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.style.display = 'none';
+                }
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
