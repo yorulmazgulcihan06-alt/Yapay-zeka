@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matematik Arenası | Konu Seçmeli</title>
+    <title>Matematik Arenası | Pro Sürüm</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -45,7 +45,7 @@
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
             font-weight: 800;
             font-size: 1.2rem;
-            display: none; /* Oyun başlayınca görünecek */
+            display: none; 
         }
 
         .score-box { color: var(--neon-blue); }
@@ -65,14 +65,19 @@
             width: 100%;
         }
 
-        /* Başlangıç ve Konu Seçme Ekranı */
-        .start-screen {
+        /* Ekranlar (Başlangıç, Sayı Seçimi, Oyun) */
+        .screen {
             text-align: center;
             animation: zoomIn 0.5s ease-out;
             width: 100%;
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
         }
         
-        .start-screen h1 {
+        .screen h1 {
             font-size: 2.5rem;
             background: linear-gradient(to right, var(--neon-blue), var(--neon-pink));
             -webkit-background-clip: text;
@@ -82,13 +87,14 @@
             letter-spacing: 2px;
         }
 
-        .start-screen p {
+        .screen p {
             margin-bottom: 30px;
             color: #aaa;
             font-size: 1.1rem;
         }
 
-        .topic-grid {
+        /* Buton Izgaraları */
+        .btn-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
@@ -96,7 +102,11 @@
             margin: 0 auto;
         }
 
-        .topic-btn {
+        .btn-grid.two-col {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .action-btn {
             background: transparent;
             color: white;
             border: 2px solid rgba(255,255,255,0.2);
@@ -111,23 +121,22 @@
             align-items: center;
         }
 
-        .topic-btn:hover {
+        .action-btn.center-text {
+            justify-content: center;
+        }
+
+        .action-btn:hover {
             background: rgba(255,255,255,0.1);
             border-color: var(--neon-blue);
             transform: translateY(-3px);
         }
 
-        .topic-btn span {
+        .action-btn span {
             font-size: 0.9rem;
             color: #888;
         }
 
         /* Sınav Ekranı */
-        .quiz-screen {
-            width: 100%;
-            display: none;
-        }
-
         .question-card {
             background: var(--panel-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -136,13 +145,48 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
             margin-bottom: 30px;
+            text-align: left;
             animation: slideInRight 0.4s ease-out;
         }
 
         .question-text {
             font-size: 1.3rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.5;
+            color: white;
+            font-weight: 600;
+        }
+
+        .hint-btn {
+            background: rgba(255, 0, 234, 0.1);
+            color: var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .hint-btn:hover {
+            background: var(--neon-pink);
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.5);
+        }
+
+        .hint-box {
+            display: none; 
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--neon-pink);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #ddd;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .options-container {
@@ -153,6 +197,8 @@
 
         @media (max-width: 600px) {
             .options-container { grid-template-columns: 1fr; }
+            .btn-grid.two-col { grid-template-columns: 1fr; }
+            .question-card { padding: 20px; }
         }
 
         .option-btn {
@@ -192,12 +238,14 @@
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-
         @keyframes slideInRight {
             from { transform: translateX(50px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
         @keyframes shake {
             0% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -218,31 +266,45 @@
 
     <div class="main-container">
         
-        <!-- Başlangıç ve Konu Seçme Ekranı -->
-        <div class="start-screen" id="start-screen">
+        <!-- EKRAN 1: Konu Seçimi -->
+        <div class="screen active" id="screen-topic">
             <h1>Matematik Arenası</h1>
             <p>Hangi konudan meydan okumak istersin?</p>
-            
-            <div class="topic-grid">
-                <button class="topic-btn" onclick="startQuiz('sayilar')">
+            <div class="btn-grid">
+                <button class="action-btn" onclick="selectTopic('sayilar')">
                     <div>🔢 Sayılar ve Nicelikler</div>
-                    <span>Çarpanlar, Asallar</span>
                 </button>
-                <button class="topic-btn" onclick="startQuiz('kesirler')">
+                <button class="action-btn" onclick="selectTopic('kesirler')">
                     <div>📏 Kesirler ve Ondalık</div>
-                    <span>Bölme, Uzunluk</span>
                 </button>
-                <button class="topic-btn" onclick="startQuiz('olasilik')">
+                <button class="action-btn" onclick="selectTopic('olasilik')">
                     <div>🎲 Veriden Olasılığa</div>
-                    <span>Deneysel Olasılık</span>
                 </button>
             </div>
         </div>
 
-        <!-- Sınav Ekranı -->
-        <div class="quiz-screen" id="quiz-screen">
+        <!-- EKRAN 2: Soru Sayısı Seçimi -->
+        <div class="screen" id="screen-count">
+            <h1>Sınav Uzunluğu</h1>
+            <p>Kaç soru çözmek istersin?</p>
+            <div class="btn-grid two-col">
+                <button class="action-btn center-text" onclick="startQuiz(5)">5 Soru</button>
+                <button class="action-btn center-text" onclick="startQuiz(10)">10 Soru</button>
+                <button class="action-btn center-text" onclick="startQuiz(15)">15 Soru</button>
+                <button class="action-btn center-text" onclick="startQuiz(20)">20 Soru</button>
+                <button class="action-btn center-text" onclick="startQuiz(25)">25 Soru</button>
+                <button class="action-btn center-text" onclick="startQuiz(30)">30 Soru</button>
+            </div>
+        </div>
+
+        <!-- EKRAN 3: Oyun (Sınav) -->
+        <div class="screen" id="screen-quiz">
             <div class="question-card" id="question-card">
                 <div class="question-text" id="question-text">Soru yükleniyor...</div>
+                
+                <button class="hint-btn" id="hint-btn" onclick="showHint()">💡 İpucu İste</button>
+                <div class="hint-box" id="hint-box"></div>
+
                 <div class="options-container" id="options-container">
                     <!-- Seçenekler buraya gelecek -->
                 </div>
@@ -262,60 +324,86 @@
             gain.connect(audioCtx.destination);
 
             if (type === 'correct') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             } else if (type === 'wrong') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             } else if (type === 'click') {
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.type = 'square'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
                 gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+            } else if (type === 'hint') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
             }
         }
 
-        // --- SORU BANKASI (Konulara Göre Ayrıldı) ---
+        // --- DEVASA SORU HAVUZU ---
         const questionBank = {
             'sayilar': [
-                { q: "12 sayısının asal çarpanları hangileridir?", c: "2 ve 3", w: ["1, 2, 3, 4, 6, 12", "2, 3 ve 4", "Sadece 2"] },
-                { q: "20 sayısının kaç tane çarpanı vardır?", c: "6", w: ["4", "5", "8"] },
-                { q: "Aşağıdakilerden hangisi bir asal sayıdır?", c: "17", w: ["15", "21", "27"] },
-                { q: "Hem 3'e hem de 5'e tam bölünebilen en küçük doğal sayı kaçtır?", c: "15", w: ["8", "30", "45"] },
-                { q: "Aşağıdaki sayılardan hangisi 2 ile kalansız bölünemez?", c: "39", w: ["12", "46", "80"] }
+                { q: "18 sayısının kaç tane çarpanı vardır?", c: "6", w: ["4", "5", "8"], h: "1x18, 2x9, 3x6 şeklinde ikili gruplar halinde bul." },
+                { q: "Aşağıdakilerden hangisi bir asal sayıdır?", c: "19", w: ["9", "15", "21"], h: "9, 15 ve 21 sayıları 3'e bölünür. Peki 19 sadece hangi sayılara bölünür?" },
+                { q: "24 sayısının asal çarpanları hangileridir?", c: "2 ve 3", w: ["2, 3 ve 4", "Sadece 2", "1, 2, 3"], h: "4 asal bir sayı değildir. 24'ü bölen en küçük asal sayıları bul." },
+                { q: "Hem 4'e hem de 6'ya tam bölünebilen en küçük sayı kaçtır?", c: "12", w: ["24", "10", "18"], h: "4'ün katları: 4, 8, 12... 6'nın katları: 6, 12... İlk nerede buluşuyorlar?" },
+                { q: "Aşağıdaki sayılardan hangisi 3 ile kalansız bölünür?", c: "123", w: ["124", "125", "128"], h: "3'e bölünme kuralı: Rakamların toplamı 3'ün katı olmalı. 1+2+3 kaç eder?" },
+                { q: "Aşağıdaki sayılardan hangisi 5 ile kalansız bölünemez?", c: "32", w: ["10", "25", "40"], h: "5'e bölünen sayılar her zaman 0 veya 5 ile biter." },
+                { q: "İki basamaklı en büyük asal sayı kaçtır?", c: "97", w: ["99", "91", "89"], h: "99, 3'e bölünür. 91 ise 7x13'tür. 97'yi bölen bir sayı var mı?" },
+                { q: "20 sayısının asal çarpanlarının toplamı kaçtır?", c: "7", w: ["5", "9", "10"], h: "20'nin asal çarpanları 2 ve 5'tir (2x2x5). Bunları topla." },
+                { q: "Aşağıdakilerden hangisi 4 ile tam bölünür?", c: "128", w: ["126", "130", "134"], h: "Son iki basamağı (28) 4'ün katı mı?" },
+                { q: "1'den 10'a kadar olan sayılardan kaç tanesi asaldır?", c: "4", w: ["3", "5", "6"], h: "2, 3, 5 ve 7. Başka var mı?" },
+                { q: "36 sayısının en büyük çarpanı kaçtır?", c: "36", w: ["18", "12", "9"], h: "Bir sayının en büyük çarpanı her zaman kendisidir." },
+                { q: "15 ve 20 sayılarının ortak bölenlerinin en büyüğü (EBOB) kaçtır?", c: "5", w: ["3", "4", "10"], h: "15'i bölenler: 1, 3, 5, 15. 20'yi bölenler: 1, 2, 4, 5, 10, 20. En büyük ortak hangisi?" },
+                { q: "Aşağıdakilerden hangisi çift asal sayıdır?", c: "2", w: ["4", "6", "8"], h: "Asal sayıların çoğu tektir. Sadece bir tanesi çifttir. Hangisi?" },
+                { q: "50 sayısının kaç tane asal çarpanı vardır (farklı)?", c: "2", w: ["3", "4", "5"], h: "50 = 2 x 5 x 5. Farklı olanları say." },
+                { q: "9'un 100'den küçük en büyük katı kaçtır?", c: "99", w: ["90", "98", "96"], h: "9x10=90. 9x11=99. 9x12=108. Cevap hangisi?" },
+                { q: "Aşağıdaki sayılardan hangisi 9'a tam bölünür?", c: "81", w: ["72 (hayır 9x8)", "81 (evet)", "90", "99"], h: "Rakamları toplamı 9 veya 9'un katı olmalı. 8+1=9." },
+                { q: "28 sayısının çarpanlarından kaç tanesi tektir?", c: "2", w: ["1", "3", "4"], h: "28 çift sayı olduğu için çarpanların çoğu çifttir. 1 ve 7'yi unutma." },
+                { q: "İki asal sayının toplamı en az kaçtır?", c: "5", w: ["3", "4", "6"], h: "En küçük asal sayılar 2 ve 3'tür. Toplamları?" },
+                { q: "Aşağıdakilerden hangisi 2, 3 ve 5'e tam bölünür?", c: "30", w: ["15", "20", "45"], h: "Bu sayı hem çift olmalı, hem rakamları toplamı 3'ün katı, hem de sonu 0 veya 5 olmalı." },
+                { q: "42 sayısının en küçük asal çarpanı kaçtır?", c: "2", w: ["3", "6", "7"], h: "42 çift bir sayıdır. En küçük asal sayıyla başla." }
             ],
             'kesirler': [
-                { q: "3/5 kesrinin ondalık gösterimi nedir?", c: "0,6", w: ["0,35", "0,53", "1,66"] },
-                { q: "1 hektometre (hm) kaç metredir?", c: "100 m", w: ["10 m", "1000 m", "0,1 m"] },
-                { q: "1/4 kesrinin yüzde (%) olarak karşılığı nedir?", c: "%25", w: ["%14", "%40", "%75"] },
-                { q: "2,5 sayısı aşağıdaki kesirlerden hangisine eşittir?", c: "5/2", w: ["2/5", "1/2", "5/4"] },
-                { q: "5 dm kaç cm'dir?", c: "50 cm", w: ["5 cm", "500 cm", "0,5 cm"] }
+                { q: "2/5 kesrinin ondalık gösterimi nedir?", c: "0,4", w: ["0,25", "0,5", "0,2"], h: "2'yi 5'e böl. 20'de 5, 4 kere var." },
+                { q: "0,75 ondalık gösterimi hangi kesre eşittir?", c: "3/4", w: ["1/4", "1/2", "2/3"], h: "0,75 = 75/100. Sadeleştirirsen?" },
+                { q: "1 kilometre (km) kaç metredir?", c: "1000 m", w: ["100 m", "10 m", "10000 m"], h: "Kilo öneki 1000 anlamına gelir." },
+                { q: "3/4 + 1/4 işleminin sonucu nedir?", c: "1", w: ["4/8", "1/2", "4/4 (0)"], h: "Paydalar eşitse payları topla. 3+1=4. 4/4 kaç eder?" },
+                { q: "500 cm kaç metredir?", c: "5 m", w: ["50 m", "0,5 m", "5000 m"], h: "100 cm = 1 m ise, 500 cm kaç m'dir?" },
+                { q: "1/2 kesrinin yüzde karşılığı nedir?", c: "%50", w: ["%20", "%25", "%100"], h: "Yarım demek, bütünün yarısı demektir." },
+                { q: "Hangisi daha büyüktür: 1/2 mi, 1/3 mü?", c: "1/2", w: ["1/3", "Eşittir", "Bilinemez"], h: "Bir pastayı 2'ye mi yoksa 3'e mi bölmek daha büyük dilim verir?" },
+                { q: "0,5 + 0,25 işleminin sonucu nedir?", c: "0,75", w: ["0,30", "0,55", "1,0"], h: "Virgülleri alt alta getirerek topla." },
+                { q: "1 dekametre (dam) kaç metredir?", c: "10 m", w: ["100 m", "1000 m", "0,1 m"], h: "Metreden bir basamak yukarı çıkıyoruz. Çarpı 10." },
+                { q: "5/10 kesrinin en sade hali nedir?", c: "1/2", w: ["1/5", "2/5", "5/5"], h: "Hem 5'i hem 10'u 5'e bölebilirsin." },
+                { q: "1,2 sayısı hangi kesre eşittir?", c: "12/10", w: ["1/2", "2/10", "12/100"], h: "Virgülden sonra bir basamak var, o zaman payda 10 olacak." },
+                { q: "3 metre kaç santimetredir?", c: "300 cm", w: ["30 cm", "3000 cm", "0,3 cm"], h: "1 m = 100 cm. 3 ile çarp." },
+                { q: "1/4 + 2/4 işleminin sonucu nedir?", c: "3/4", w: ["3/8", "2/4", "1/2"], h: "Paydalar aynı, sadece üstteki sayıları topla." },
+                { q: "Aşağıdakilerden hangisi 0,1'den küçüktür?", c: "0,05", w: ["0,2", "0,15", "0,11"], h: "Ondalık sayılarda sola doğru gidildikçe sayı küçülür." },
+                { q: "2/3 kesri, bütünün ne kadarını ifade eder?", c: "Üçte ikisini", w: ["Yarısını", "Dörtte birini", "Tamamını"], h: "Payda 3, pay 2. 3 parçaya bölünmüş, 2'si alınmış." },
+                { q: "1 metre + 50 cm toplamı kaç cm'dir?", c: "150 cm", w: ["51 cm", "105 cm", "1500 cm"], h: "Önce 1 metreyi cm'ye çevir (100 cm), sonra 50 ile topla." },
+                { q: "0,6 - 0,2 işleminin sonucu nedir?", c: "0,4", w: ["0,8", "0,3", "0,12"], h: "6'dan 2 çıkarsa 4 kalır. Virgül aynı hizada." },
+                { q: "Bir bütünün 1/8'i, yüzde kaçtır?", c: "12,5", w: ["8", "18", "25"], h: "100'ü 8'e bölersen kaç çıkar? (100/8)" },
+                { q: "1 saat kaç dakikadır?", c: "60", w: ["100", "30", "24"], h: "Zaman ölçüsü, klasik bilgi." },
+                { q: "1/3 + 1/3 + 1/3 işleminin sonucu nedir?", c: "1", w: ["3/6", "1/3", "2/3"], h: "Üç tane 1/3 birleşirse bir bütün eder." }
             ],
             'olasilik': [
-                { q: "Bir zar atıldığında üst yüze çift sayı gelme olasılığı kaçtır?", c: "1/2", w: ["1/3", "1/6", "2/3"] },
-                { q: "Torbada 3 kırmızı, 4 mavi top var. Mavi çekme olasılığı kaçtır?", c: "4/7", w: ["3/7", "1/2", "4/12"] },
-                { q: "Hilesiz bir madeni para atıldığında 'Tura' gelme olasılığı kaçtır?", c: "1/2", w: ["1/4", "1", "0"] },
-                { q: "Bir zar atıldığında 7 gelme olasılığı kaçtır?", c: "0", w: ["1/6", "1/7", "1/2"] },
-                { q: "İçinde sadece 5 tane kırmızı top olan torbadan kırmızı çekme olasılığı kaçtır?", c: "1 (Kesin)", w: ["0", "1/5", "5/5 (0)"] }
-            ]
-        };
-
-        let currentQuestion = 0;
-        let correctScore = 0;
-        let wrongScore = 0;
-        let canAnswer = true;
-        let selectedQuestions = []; // Karıştırılmış sorular burada tutulacak
-
-        // --- DİZİYİ KARIŞTIRMA (FISHER-YATES) ---
+                { q: "Bir zar atıldığında 3 gelme olasılığı kaçtır?", c: "1/6", w: ["1/3", "1/2", "1/4"], h: "Zarda 6 yüz var ve sadece 1 tanesi 3." },
+                { q: "Bir zar atıldığında tek sayı gelme olasılığı kaçtır?", c: "1/2", w: ["1/3", "1/6", "2/3"], h: "Tek sayılar: 1, 3, 5. Yani 3 tane. 3/6 sadeleşirse?" },
+                { q: "Torbada 2 kırmızı, 3 yeşil top var. Yeşil çekme olasılığı?", c: "3/5", w: ["2/5", "1/2", "1/3"], h: "Toplam 5 top var. 3 tanesi yeşil." },
+                { q: "İmkansız bir olayın olasılığı kaçtır?", c: "0", w: ["1", "1/2", "-1"], h: "Hiç gerçekleşmeyecek bir şeyin şansı yüzde kaçtır?" },
+                { q: "Kesin gerçekleşecek bir olayın olasılığı kaçtır?", c: "1", w: ["0", "1/2", "100/10"], h: "Güneşin doğması gibi düşün, ihtimal %100." },
+                { q: "Hilesiz bir madeni para atıldığında 'Yazı' gelme olasılığı?", c: "1/2", w: ["1", "0", "1/4"], h: "İki yüz var, biri bizim istediğimiz." },
+                { q: "Bir zar atıldığında 6'dan küçük sayı gelme olasılığı?", c: "5/6", w: ["1/6", "1/2", "4/6"], h: "1, 2, 3, 4, 5 gelirse 6'dan küçük olur. 6 hariç hepsi." },
+                { q: "Torbada 4 mavi, 4 kırmızı top var. Mavi çekme olasılığı?", c: "1/2", w: ["1/4", "3/4        // --- DİZİYİ KARIŞTIRMA (FISHER-YATES) ---
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -324,23 +412,41 @@
             return array;
         }
 
-        // --- OYUNU BAŞLAT ---
-        function startQuiz(topic) {
+        // --- KONU SEÇİMİ ---
+        function selectTopic(topic) {
             playSound('click');
+            currentTopic = topic;
             
-            // Oyun ekranını hazırla
-            document.getElementById('start-screen').style.display = 'none';
+            // Konu ekranını gizle, soru sayısı ekranını göster
+            document.getElementById('screen-topic').classList.remove('active');
+            document.getElementById('screen-count').classList.add('active');
+        }
+
+        // --- OYUNU BAŞLAT (Soru Sayısı Seçildikten Sonra) ---
+        function startQuiz(count) {
+            playSound('click');
+            requestedQuestionCount = count;
+
+            // Ekranları ayarla
+            document.getElementById('screen-count').classList.remove('active');
+            document.getElementById('screen-quiz').classList.add('active');
             document.getElementById('scoreboard').style.display = 'flex';
-            document.getElementById('quiz-screen').style.display = 'block';
             
             currentQuestion = 0;
             correctScore = 0;
             wrongScore = 0;
             updateScoreboard();
 
-            // Seçilen konudan soruları al ve karıştır
-            let rawQuestions = questionBank[topic];
-            selectedQuestions = shuffleArray([...rawQuestions]); // Kopyasını alıp karıştır
+            // Havuzdan istenen sayıda rastgele soru seç
+            let pool = questionBank[currentTopic];
+            let shuffledPool = shuffleArray([...pool]); // Havuzu karıştır
+            
+            // Eğer istenen soru sayısı havuzdakinden fazlaysa, havuzun tamamını al
+            if (requestedQuestionCount > shuffledPool.length) {
+                selectedQuestions = shuffledPool;
+            } else {
+                selectedQuestions = shuffledPool.slice(0, requestedQuestionCount);
+            }
 
             showQuestion();
         }
@@ -350,31 +456,49 @@
             canAnswer = true;
             const qData = selectedQuestions[currentQuestion];
             
-            // Soru metnini güncelle
             document.getElementById('question-text').innerText = qData.q;
             document.getElementById('question-counter').innerText = `${currentQuestion + 1}/${selectedQuestions.length}`;
 
-            // Seçenekleri hazırla (Doğru şık + Yanlış şıklar)
-            let allOptions = [qData.c, ...qData.w]; // Doğru cevabı ve yanlışları birleştir
-            
-            // Şıkları rastgele karıştır
+            // İpucu kutusunu sıfırla
+            document.getElementById('hint-btn').style.display = 'inline-block';
+            const hintBox = document.getElementById('hint-box');
+            hintBox.style.display = 'none';
+            hintBox.innerText = qData.h; 
+
+            // Şıkları hazırla ve karıştır
+            let allOptions = [qData.c, ...qData.w]; 
             allOptions = shuffleArray(allOptions);
-
-            // Doğru cevabın yeni yerini bul
             const newCorrectIndex = allOptions.indexOf(qData.c);
-            qData.currentCorrectIndex = newCorrectIndex; // Doğru cevabı objeye kaydet
+            qData.currentCorrectIndex = newCorrectIndex; 
 
-            // Seçenek butonlarını oluştur
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = ''; 
 
             allOptions.forEach((option, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; // A, B, C, D
+                btn.innerText = `${String.fromCharCode(65 + index)}) ${option}`; 
                 btn.onclick = () => checkAnswer(index, btn);
                 optionsContainer.appendChild(btn);
             });
+
+            // Animasyonu yeniden tetikle
+            const qCard = document.getElementById('question-card');
+            qCard.style.animation = 'none';
+            qCard.offsetHeight; /* trigger reflow */
+            qCard.style.animation = 'slideInRight 0.4s ease-out';
+        }
+
+        // --- İPUCUNU GÖSTER ---
+        function showHint() {
+            playSound('hint'); 
+            const hintBox = document.getElementById('hint-box');
+            const hintBtn = document.getElementById('hint-btn');
+            
+            if(hintBox.style.display === 'none' || hintBox.style.display === '') {
+                hintBox.style.display = 'block';
+                hintBtn.style.display = 'none'; 
+            }
         }
 
         // --- CEVABI KONTROL ET ---
@@ -385,6 +509,9 @@
             const correctIndex = selectedQuestions[currentQuestion].currentCorrectIndex;
             const allButtons = document.querySelectorAll('.option-btn');
 
+            document.getElementById('hint-box').style.display = 'none';
+            document.getElementById('hint-btn').style.display = 'none';
+
             if (selectedIndex === correctIndex) {
                 playSound('correct');
                 btnElement.classList.add('correct');
@@ -392,7 +519,7 @@
             } else {
                 playSound('wrong');
                 btnElement.classList.add('wrong');
-                allButtons[correctIndex].classList.add('correct'); // Doğruyu göster
+                allButtons[correctIndex].classList.add('correct'); 
                 wrongScore++;
             }
 
@@ -413,17 +540,20 @@
             document.getElementById('score-wrong').innerText = wrongScore;
         }
 
+        // --- OYUNU BİTİR ---
         function endQuiz() {
-            const quizScreen = document.getElementById('quiz-screen');
+            const quizScreen = document.getElementById('screen-quiz');
             quizScreen.innerHTML = `
                 <div class="question-card" style="text-align: center;">
                     <h2 style="color: var(--neon-blue); font-size: 2rem; margin-bottom: 20px;">Meydan Okuma Tamamlandı!</h2>
                     <p style="font-size: 1.2rem; margin-bottom: 20px;">Doğru Sayın: <span style="color: var(--correct); font-weight: bold; font-size: 1.5rem;">${correctScore}</span></p>
                     <p style="font-size: 1.2rem; margin-bottom: 30px;">Yanlış Sayın: <span style="color: var(--wrong); font-weight: bold; font-size: 1.5rem;">${wrongScore}</span></p>
-                    <button class="start-btn" onclick="location.reload()" style="background: var(--neon-blue); color: black; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem;">ANA MENÜYE DÖN</button>
+                    <button class="action-btn center-text" onclick="location.reload()" style="background: var(--neon-blue); color: black; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; width: 100%;">ANA MENÜYE DÖN</button>
                 </div>
             `;
+            // Skor tablosunu gizle
+            document.getElementById('scoreboard').style.display = 'none';
         }
     </script>
-</body>
+</body/>
 </html>
